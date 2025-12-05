@@ -37,7 +37,7 @@ function App() {
       <BrowserRouter>
         <Routes>
             {/* 기본 페이지 → 로그인으로 이동 */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<Navigate to="/my_page" replace />} />
 
             {/* 로그인 페이지 */}
           <Route path="/login" element={<LoginPage />} />

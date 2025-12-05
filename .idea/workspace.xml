@@ -7,46 +7,7 @@
     <list default="true" id="9bf0f0dc-0c03-4351-b918-b149077e8c4d" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_CssBaseline.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_CssBaseline.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_CssBaseline.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_CssBaseline.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_styles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_styles.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_styles.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/_metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/axios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/axios.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/axios.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-2S6C3QS5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-2S6C3QS5.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-DC5AMYBS.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-DC5AMYBS.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-FEJEOHK2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-FEJEOHK2.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-JIJDWBGI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-JIJDWBGI.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-K3GZATCN.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-K3GZATCN.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-OS3AASZM.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-OS3AASZM.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-QDUQBZZD.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-QDUQBZZD.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-VERZZ5HX.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-VERZZ5HX.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-WIEH6M52.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/chunk-WIEH6M52.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react-dom_client.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react-dom_client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react-dom_client.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react-dom_client.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react-router-dom.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react-router-dom.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react-router-dom.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react-router-dom.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react_jsx-dev-runtime.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react_jsx-dev-runtime.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react_jsx-dev-runtime.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react_jsx-dev-runtime.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react_jsx-runtime.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react_jsx-runtime.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react_jsx-runtime.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/react_jsx-runtime.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/my_page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/my_page.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
