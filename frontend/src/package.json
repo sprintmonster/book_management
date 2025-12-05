@@ -1,7 +1,7 @@
 {
   "name": "culgeoga-library",
   "version": "1.0.0",
-  "description": "컬거가 서재 - 작가의 산책",
+  "description": "걷기가 서재 - 작가의 산책",
   "type": "module",
   "scripts": {
     "dev": "vite",
