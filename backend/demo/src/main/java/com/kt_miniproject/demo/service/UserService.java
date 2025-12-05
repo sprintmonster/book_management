@@ -10,5 +10,4 @@ public interface UserService {
     UserResponse createUser(UserCreateRequest request);
 
     UserResponse getUserInfo(Long id);
-
 }

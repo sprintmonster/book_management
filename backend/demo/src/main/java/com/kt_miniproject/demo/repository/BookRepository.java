@@ -8,4 +8,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     // 제목 LIKE 검색 (대소문자 무시)
     List<Book> findByTitleContainingIgnoreCase(String title);
+    List<Book> findByUserUserID(Long id);
 }

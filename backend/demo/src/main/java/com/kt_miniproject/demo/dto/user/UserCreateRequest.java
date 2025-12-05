@@ -11,4 +11,5 @@ public class UserCreateRequest {
     private String name;
     private Role role;
     private String api_key;
+
 }

@@ -15,6 +15,7 @@ public class UserResponse {
     private String name;
     private String api_Key;
 
+
     //  Book 엔티티를 받아서 응답 DTO로 변환하는 생성자
     public UserResponse(User user) {
         this.id = user.getId();

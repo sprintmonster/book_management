@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
                 .name(savedUser.getName())
                 .build();
     }
-
     public UserResponse getUserInfo(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
