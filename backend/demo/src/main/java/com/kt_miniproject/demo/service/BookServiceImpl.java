@@ -3,10 +3,12 @@ package com.kt_miniproject.demo.service;
 import com.kt_miniproject.demo.domain.book.Book;
 import com.kt_miniproject.demo.dto.book.BookCreateRequest;
 import com.kt_miniproject.demo.dto.book.BookResponse;
+import com.kt_miniproject.demo.exception.ResourceNotFoundException;
 import com.kt_miniproject.demo.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class BookServiceImpl implements BookService {
 
+    //AutoWired 대신 RequiredArgsConstructor로 의존성 주입
     private final BookRepository bookRepository;
 
     // 도서 등록
@@ -45,7 +48,7 @@ public class BookServiceImpl implements BookService {
     public BookResponse getBookById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Book not found. id=" + id)); //  변경
+                        new ResourceNotFoundException("Book not found. id=" + id)); //  illegalArgument에서 직접 처리한 예외로 변경
         return new BookResponse(book);
     }
 
@@ -55,7 +58,7 @@ public class BookServiceImpl implements BookService {
     public BookResponse updateBook(Long id, BookCreateRequest request) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Book not found. id=" + id)); //  변경
+                        new ResourceNotFoundException("Book not found. id=" + id)); //  illegalArgument에서 직접 처리한 예외로 변경
 
         book.setTitle(request.getTitle());
         book.setContent(request.getContent());
@@ -70,7 +73,7 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public void deleteBook(Long id) {
         if (!bookRepository.existsById(id)) {
-            throw new IllegalArgumentException("Book not found. id=" + id); //  변경
+            throw new ResourceNotFoundException("Book not found. id=" + id); //  illegalArgument에서 직접 처리한 예외로 변경
         }
         bookRepository.deleteById(id);
     }

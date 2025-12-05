@@ -1,6 +1,7 @@
-package com.kt_miniproject.demo.domain.comment;
+package com.kt_miniproject.demo.repository;
 
 import com.kt_miniproject.demo.domain.book.Book;
+import com.kt_miniproject.demo.domain.comment.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

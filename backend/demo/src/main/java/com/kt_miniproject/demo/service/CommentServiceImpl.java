@@ -2,7 +2,7 @@ package com.kt_miniproject.demo.service;
 
 import com.kt_miniproject.demo.domain.book.Book;
 import com.kt_miniproject.demo.domain.comment.Comment;
-import com.kt_miniproject.demo.domain.comment.CommentRepository;
+import com.kt_miniproject.demo.repository.CommentRepository;
 import com.kt_miniproject.demo.domain.user.User;
 import com.kt_miniproject.demo.dto.comment.CommentCreateRequest;
 import com.kt_miniproject.demo.dto.comment.CommentResponse;
@@ -64,7 +64,7 @@ public class CommentServiceImpl implements CommentService {
                         .content(c.getContent())
                         .userId(c.getUser().getId())
                         .userName(c.getUser().getName())
-                        .bookId(book.getId())
+                        .bookId(c.getId())
                         .createdAt(c.getCreatedAt())
                         .build()
                 )
