@@ -2,11 +2,6 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Enroll from './components/enroll.jsx';
-import Revision from './components/revision-1.jsx';
-import LoginPage from './components/login.jsx'; // ← login import 추가
-import RegisterPage from './components/register.jsx'; // ← register import 추가
-import MyPage from './components/my_page.jsx';
 
 const theme = createTheme({
   palette: {
@@ -52,6 +47,8 @@ function App() {
           <Route path="/test/revision1" element={<Navigate to="/revision/1" replace />} />
           <Route path="/test/revision2" element={<Navigate to="/revision/2" replace />} />
           <Route path="/test/revision3" element={<Navigate to="/revision/3" replace />} />
+          {/*상세정보보기*/}
+          <Route path="/books/:id/info" element={<InfoPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
