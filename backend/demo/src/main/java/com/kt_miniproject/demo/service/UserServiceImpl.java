@@ -2,7 +2,6 @@ package com.kt_miniproject.demo.service;
 
 import com.kt_miniproject.demo.domain.book.Book;
 import com.kt_miniproject.demo.domain.user.User;
-import com.kt_miniproject.demo.dto.book.BookCreateRequest;
 import com.kt_miniproject.demo.dto.book.BookResponse;
 import com.kt_miniproject.demo.dto.user.UserCreateRequest;
 import com.kt_miniproject.demo.dto.user.UserResponse;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 @Builder
-public class UserServicelmpl implements UserService {
+public class UserServiceImpl implements UserService {
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
 
