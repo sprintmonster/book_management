@@ -8,6 +8,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/my_page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/my_page.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_CssBaseline.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_CssBaseline.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/_metadata.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +45,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/sprintmonster/book_management.git&quot;,
-    &quot;accountId&quot;: &quot;172a7542-93b5-4d71-89fa-b73620f387b6&quot;
+    &quot;accountId&quot;: &quot;acd18a2a-e62b-4a93-b570-cdaa7eeccfc5&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -57,7 +64,10 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "HDY",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/User/Desktop/Spring/book_management",
     "node.js.detected.package.eslint": "true",
@@ -66,6 +76,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.dev.executor": "Run",
+    "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -98,10 +109,18 @@
       <updated>1764836283665</updated>
       <workItem from="1764836296499" duration="330000" />
       <workItem from="1764894755155" duration="1577000" />
+      <workItem from="1765077724344" duration="564000" />
+      <workItem from="1765078520623" duration="34000" />
+      <workItem from="1765107950909" duration="1848000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/frontend/vite.config.js" />
+      </list>
+    </option>
   </component>
 </project>

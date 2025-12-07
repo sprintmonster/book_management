@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Paper, List, ListItem, ListItemText, Pagination } from '@mui/material';
+import {
+    Box, TextField, Button, Typography, Paper,
+    List, ListItem, ListItemText, Pagination,
+    AppBar, Toolbar, IconButton
+} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
 
 function MyPage() {
+    const navigate = useNavigate();
+
     const [userInfo, setUserInfo] = useState({
         email: 'user@example.com',
         password: '',
@@ -16,8 +24,8 @@ function MyPage() {
         { id: 5, title: '다섯 번째 게시글', date: '2025-12-05' },
     ]);
 
-    const [page, setPage] = useState(1); // 현재 페이지
-    const postsPerPage = 3; // 페이지당 글 수
+    const [page, setPage] = useState(1);
+    const postsPerPage = 3;
 
     const handleChange = (e) => {
         setUserInfo({
@@ -27,12 +35,18 @@ function MyPage() {
     };
 
     const handleSave = () => {
-        console.log('회원정보 저장:', userInfo);
         alert('회원정보가 저장되었습니다 (더미)');
-        // 실제: API 호출 후 상태 업데이트
     };
 
-    // 현재 페이지에 표시할 게시글
+    // 삭제 기능
+    const handleDelete = (id) => {
+        if (window.confirm("정말 삭제하시겠습니까?")) {
+            setPosts(posts.filter(post => post.id !== id));
+            alert("삭제되었습니다.");
+        }
+    };
+
+    // 페이지네이션
     const indexOfLastPost = page * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
@@ -42,25 +56,33 @@ function MyPage() {
     };
 
     return (
-        <Box display="flex" sx={{ p: 3, gap: 3 }}>
+        <>
+        <AppBar position="static" color="primary">
+            <Toolbar>
+                <IconButton edge="start" color="inherit" onClick={() => navigate('/MainPage')}>
+                    <ArrowBackIcon />
+                </IconButton>
+                <Typography variant="h6" sx={{ ml: 1 }}>
+                    마이페이지
+                </Typography>
+            </Toolbar>
+        </AppBar>
+
+        <Box display="flex" sx={{ p: 3, gap: 3, mt:10}}>
             {/* 왼쪽: 회원정보 */}
             <Paper elevation={3} sx={{ p: 3, width: 300 }}>
-                <Typography variant="h6" mb={2}>
-                    회원정보
-                </Typography>
+                <Typography variant="h6" mb={2}>회원정보</Typography>
 
                 <TextField
                     fullWidth
                     label="이메일"
                     name="email"
                     value={userInfo.email}
-                    InputProps={{
-                        readOnly: true,
-                    }}
+                    InputProps={{ readOnly: true }}
                     margin="dense"
                     sx={{
-                        '& .MuiInputLabel-root': { color: 'black' }, // 라벨 색상
-                        '& .MuiInputBase-input': { color: 'black' }, // 입력 텍스트 색상
+                        '& .MuiInputLabel-root': { color: 'black' },
+                        '& .MuiInputBase-input': { color: 'black' }
                     }}
                 />
 
@@ -89,19 +111,35 @@ function MyPage() {
             </Paper>
 
             {/* 오른쪽: 게시글 목록 */}
-            <Paper elevation={3} sx={{ flex: 1, p: 3 }}>
-                <Typography variant="h6" mb={2}>
-                    내 게시글
-                </Typography>
+            <Paper elevation={3} sx={{ flex: 1, p:4 }}>
+                <Typography variant="h6" mb={2}>내 게시글</Typography>
+
                 <List>
                     {currentPosts.map((post) => (
-                        <ListItem key={post.id} button>
+                        <ListItem key={post.id} secondaryAction={
+                            <>
+                                <Button
+                                    size="small"
+                                    onClick={() => navigate(`/revision/${post.id}`, { state: post })}
+                                >
+                                    수정
+                                </Button>
+                                <Button
+                                    size="small"
+                                    color="error"
+                                    onClick={() => handleDelete(post.id)}
+                                >
+                                    삭제
+                                </Button>
+                            </>
+                        }>
                             <ListItemText primary={post.title} secondary={post.date} />
                         </ListItem>
                     ))}
                 </List>
 
-                {/* 페이지네이션 */}
+
+                {/* 페이지 네이션 */}
                 <Box display="flex" justifyContent="center" mt={2}>
                     <Pagination
                         count={Math.ceil(posts.length / postsPerPage)}
@@ -112,6 +150,7 @@ function MyPage() {
                 </Box>
             </Paper>
         </Box>
+    </>
     );
 }
 
