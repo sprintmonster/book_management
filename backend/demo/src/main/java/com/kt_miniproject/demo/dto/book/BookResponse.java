@@ -1,13 +1,13 @@
 package com.kt_miniproject.demo.dto.book;
 
 import com.kt_miniproject.demo.domain.book.Book;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BookResponse {
 
     private Long id;

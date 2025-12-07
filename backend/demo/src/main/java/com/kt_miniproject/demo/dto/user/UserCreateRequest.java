@@ -1,5 +1,6 @@
 package com.kt_miniproject.demo.dto.user;
 
+import com.kt_miniproject.demo.domain.user.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,6 @@ public class UserCreateRequest {
     private String password;
     private String name;
     private Role role;
-    private String api_key;
+    private String apiKey;
 
 }

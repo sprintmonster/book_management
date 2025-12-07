@@ -4,16 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d07be40b-539f-4352-b505-d63da1763f40" name="변경" comment="book component" />
+    <list default="true" id="9bf0f0dc-0c03-4351-b918-b149077e8c4d" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/demo/src/main/java/com/kt_miniproject/demo/dto/book/BookResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/demo/src/main/java/com/kt_miniproject/demo/dto/book/BookResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/demo/src/main/java/com/kt_miniproject/demo/dto/user/UserCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/demo/src/main/java/com/kt_miniproject/demo/dto/user/UserCreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/demo/src/main/java/com/kt_miniproject/demo/dto/user/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/demo/src/main/java/com/kt_miniproject/demo/dto/user/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/demo/src/main/java/com/kt_miniproject/demo/repository/BookRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/demo/src/main/java/com/kt_miniproject/demo/repository/BookRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/demo/src/main/java/com/kt_miniproject/demo/service/UserServicelmpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/demo/src/main/java/com/kt_miniproject/demo/service/UserServicelmpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="ExternalProjectsData">
-    <projectState path="$PROJECT_DIR$/backend/demo">
-      <ProjectState />
-    </projectState>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -22,40 +24,53 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;wish1124&quot;
+    &quot;assignee&quot;: &quot;jwj9456&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/sprintmonster/book_management.git&quot;,
-    &quot;accountId&quot;: &quot;64057ff5-2673-4d2b-89f9-b4aef63ccc72&quot;
+    &quot;accountId&quot;: &quot;f8898d12-e6ff-4410-942d-9abc5eb1a03a&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
+  &quot;associatedIndex&quot;: 7
 }</component>
-  <component name="ProjectId" id="36N82EHvk3lgxuVZGMDXFloVPgN" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="36N9hi8ljGzz3ZgtJT3th4q72W8" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.DemoApplication.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.DemoApplication.executor": "Run",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "LSY",
+    "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/gongdong-ug/Desktop/JAVA/book_management",
+    "last_opened_file_path": "C:/Users/User/Desktop/Spring/book_management",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "vcs.Git",
-    "애플리케이션.DemoApplication.executor": "Run"
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
     "GitStage.ChangesTree.GroupingKeys": [
@@ -65,19 +80,21 @@
     ]
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\User\Desktop\JAVA\mvc\book_management\backend\demo" />
-      <recent name="C:\Users\User\Desktop\JAVA\mvc\book_management\backend\demo\src" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\User\Desktop\JAVA\mvc\book_management\backend\demo" />
-    </key>
-  </component>
   <component name="RunManager">
-    <configuration name="DemoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.kt_miniproject.demo.DemoApplication" />
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="book_management" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="book_management" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="demo.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.kt_miniproject.demo.DemoApplication" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.kt_miniproject.demo.*" />
@@ -88,65 +105,37 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.DemoApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7" />
+        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-IU-252.28238.7" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
-      <changelist id="d07be40b-539f-4352-b505-d63da1763f40" name="변경" comment="" />
-      <created>1764835459466</created>
+      <changelist id="" name="변경" comment="" />
+      <created>1764836283665</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1764835459466</updated>
+      <updated>1764836283665</updated>
+      <workItem from="1764836296499" duration="330000" />
+      <workItem from="1764894755155" duration="1577000" />
+      <workItem from="1765111490987" duration="454000" />
+      <workItem from="1765111949715" duration="2724000" />
     </task>
-    <task id="LOCAL-00001" summary="book component">
-      <option name="closed" value="true" />
-      <created>1764835987950</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1764835987950</updated>
-    </task>
-    <task id="LOCAL-00002" summary="book component">
-      <option name="closed" value="true" />
-      <created>1764838053139</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1764838053139</updated>
-    </task>
-    <task id="LOCAL-00003" summary="book component">
-      <option name="closed" value="true" />
-      <created>1764896200842</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1764896200842</updated>
-    </task>
-    <task id="LOCAL-00004" summary="book component">
-      <option name="closed" value="true" />
-      <created>1764896352892</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1764896352892</updated>
-    </task>
-    <task id="LOCAL-00005" summary="user">
-      <option name="closed" value="true" />
-      <created>1764921872767</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1764921872767</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -158,10 +147,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="book component" />
-    <MESSAGE value="user" />
-    <option name="LAST_COMMIT_MESSAGE" value="user" />
   </component>
 </project>
