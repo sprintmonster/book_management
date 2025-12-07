@@ -8,7 +8,8 @@ import MyPage  from "./components/my_page.jsx";
 import Enroll from './components/enroll.jsx';
 import Revision from './components/revision-1.jsx';
 import LoginPage from './components/login.jsx'; // ← login import 추가
-import RegisterPage from './components/register.jsx'; // ← register import 추가
+import RegisterPage from './components/register.jsx';
+import FindAccount from "./components/find_account.jsx"; // ← register import 추가
 
 const theme = createTheme({
   palette: {
@@ -47,6 +48,8 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             {/*  마이페이지 - 도윤 */}
              <Route path="/my_page" element={<MyPage />} />
+            <Route path ="/find_account" element={<FindAccount />}/>
+
             {/* 신규 등록 - 버들*/}
             <Route path="/enroll" element={<Enroll />} />
             {/* 수정페이지 - 버들*/}

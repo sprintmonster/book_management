@@ -7,14 +7,9 @@
     <list default="true" id="9bf0f0dc-0c03-4351-b918-b149077e8c4d" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/my_page.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/my_page.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_icons-material.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_CssBaseline.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_CssBaseline.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/@mui_material_styles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/node_modules/.vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/register.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,27 +54,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "HDY",
-    "ignore.virus.scanning.warn.message": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/User/Desktop/Spring/book_management",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev.executor": "Run",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;HDY&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Desktop/Spring/book_management&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Desktop\book_management\frontend\src\assets" />
+      <recent name="C:\Users\User\Desktop\book_management\frontend\public" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/frontend/src/package.json" />
@@ -111,7 +112,8 @@
       <workItem from="1764894755155" duration="1577000" />
       <workItem from="1765077724344" duration="564000" />
       <workItem from="1765078520623" duration="34000" />
-      <workItem from="1765107950909" duration="1848000" />
+      <workItem from="1765107950909" duration="2136000" />
+      <workItem from="1765112102632" duration="4387000" />
     </task>
     <servers />
   </component>
