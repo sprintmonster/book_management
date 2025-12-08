@@ -12,7 +12,7 @@ import axios from 'axios';
 
 const theme = createTheme({
     palette: {
-        primary: { main: '#8BC34A' },
+        primary: { main: "#AED581"},
         secondary: { main: '#CDDC39' },
     },
 });
@@ -93,11 +93,23 @@ function MyPage() {
 
         fetchUserInfo();
     }, []);
+    // useEffect(() => {
+    //     // 🔥 테스트를 위해 더미 데이터로 값 넣기
+    //     setUserInfo({
+    //         userId: "1",
+    //         name: "홍길동",
+    //         email: "test123@example.com",
+    //         password: "",   // 빈칸 가능
+    //         role: 0,
+    //         apiKey: "ABC-123-DEF"
+    //     });
+    // }, []);
 
     return (
         <ThemeProvider theme={theme}>
-            <Box>
-                <AppBar position="static" color="transparent" elevation={0}>
+            <Box sx={{ backgroundColor: "#F3FDE9", minHeight: '100vh', pb: 5 }}>
+
+            <AppBar position="static" color="transparent" elevation={0}>
                     <Toolbar>
                         <IconButton edge="start" color="inherit" onClick={() => navigate('/MainPage')}>
                             <ArrowBackIcon />
@@ -111,14 +123,33 @@ function MyPage() {
                     <Paper elevation={3} sx={{ p: 3, width: 300 }}>
                         <Typography variant="h6" mb={2}>회원정보</Typography>
 
+                        {/* 이름 */}
+                        <TextField
+                            fullWidth
+                            label="이름"
+                            name="name"
+                            value={userInfo.name}
+                            margin="dense"
+                            InputProps={{
+                                readOnly: true,
+                                style: { color: "black" }
+                            }}
+                        />
+
+                        {/* 이메일 */}
                         <TextField
                             fullWidth
                             label="이메일"
                             name="email"
                             value={userInfo.email}
-                            InputProps={{ readOnly: true }}
                             margin="dense"
+                            InputProps={{
+                                readOnly: true,
+                                style: { color: "black" }
+                            }}
                         />
+
+                        {/* 비밀번호 */}
                         <TextField
                             fullWidth
                             label="비밀번호"
@@ -128,6 +159,8 @@ function MyPage() {
                             onChange={handleChange}
                             margin="dense"
                         />
+
+                        {/* API Key */}
                         <TextField
                             fullWidth
                             label="API Key"
@@ -138,10 +171,19 @@ function MyPage() {
                             placeholder="선택 입력"
                         />
 
-                        <Button variant="contained" fullWidth sx={{ mt: 2 }} onClick={handleSave}>
+                        <Button variant="contained" fullWidth sx={{
+                            mt: 2,
+                            padding: 1,
+                            backgroundColor:"#AED581",   // 로그인 박스보다 진한 연두
+                            color: "#1A1A1A",             // 글씨 선명하게
+                            '&:hover': {
+                                backgroundColor:  "#C5E1A5", // hover 시 조금 더 진하게
+                            }
+                        }} onClick={handleSave}>
                             저장
                         </Button>
                     </Paper>
+
 
                     {/* 오른쪽: 게시글 목록 */}
                     <Paper elevation={3} sx={{ flex: 1, p: 4 }}>

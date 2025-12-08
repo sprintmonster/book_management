@@ -48,13 +48,13 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             {/*  마이페이지 - 도윤 */}
              <Route path="/my_page" element={<MyPage />} />
+            {/*계정/비밀번호 찾기 - 도윤*/}
             <Route path ="/find_account" element={<FindAccount />}/>
 
             {/* 신규 등록 - 버들*/}
             <Route path="/enroll" element={<Enroll />} />
             {/* 수정페이지 - 버들*/}
             <Route path="/revision/:id" element={<Revision />} />
-            <Route path="/enroll" element={<Enroll />} />
 
             {/*메인 페이지 - 우진*/}
             <Route path="/MainPage" element={<MainPage />} />

@@ -85,7 +85,17 @@ function RegisterPage() {
                      justifyContent="center"
                      alignItems="center"
                      sx={{ height: 'calc(100vh - 500px)' }}>
-                    <Paper elevation={3} sx={{ padding: 4, width: 400 }}>
+                    <Paper
+                        elevation={3}
+                        sx={{
+                            padding: 5,
+                            width: 450,
+                            height: 550,
+                            backgroundColor: "#F3FDE8",   // 파스텔 연두 (로그인 박스)
+                            color: "#1A1A1A",              // 글씨 선명하게 (짙은 회색 계열)
+                            fontWeight: 500                // 텍스트 가독성 강화
+                        }}
+                    >
                         <Typography variant="h5" textAlign="center" mb={2}>
                             회원가입
                         </Typography>
@@ -97,6 +107,11 @@ function RegisterPage() {
                             value={form.email}
                             onChange={handleChange}
                             margin="dense"
+                            sx={{
+                                backgroundColor: "#FFFFFF",
+                                borderRadius: 1,
+                                mb: 2, // 아래 여백
+                            }}
                         />
                         <TextField
                             fullWidth
@@ -106,6 +121,11 @@ function RegisterPage() {
                             value={form.password}
                             onChange={handleChange}
                             margin="dense"
+                            sx={{
+                                backgroundColor: "#FFFFFF",
+                                borderRadius: 1,
+                                mb: 2, // 아래 여백
+                            }}
                         />
                         <TextField
                             fullWidth
@@ -114,6 +134,11 @@ function RegisterPage() {
                             value={form.name}
                             onChange={handleChange}
                             margin="dense"
+                            sx={{
+                                backgroundColor: "#FFFFFF",
+                                borderRadius: 1,
+                                mb: 2, // 아래 여백
+                            }}
                         />
                         <TextField
                             fullWidth
@@ -122,12 +147,25 @@ function RegisterPage() {
                             value={form.apiKey}
                             onChange={handleChange}
                             margin="dense"
+                            sx={{
+                                backgroundColor: "#FFFFFF",
+                                borderRadius: 1,
+                                mb: 2, // 아래 여백
+                            }}
                         />
 
                         <Button
                             variant="contained"
                             fullWidth
-                            sx={{ mt: 2 }}
+                            sx={{
+                                mt: 2,
+                                padding: 1,
+                                backgroundColor:"#AED581",   // 로그인 박스보다 진한 연두
+                                color: "#1A1A1A",             // 글씨 선명하게
+                                '&:hover': {
+                                    backgroundColor:  "#C5E1A5", // hover 시 조금 더 진하게
+                                }
+                            }}
                             onClick={handleRegister}
                             disabled={loading}
                         >
@@ -137,7 +175,7 @@ function RegisterPage() {
                         <Button
                             variant="text"
                             fullWidth
-                            sx={{ mt: 1 }}
+                            sx={{ mt: 1, color:"#888888" }}
                             onClick={() => navigate('/login')}
                         >
                             로그인으로 돌아가기

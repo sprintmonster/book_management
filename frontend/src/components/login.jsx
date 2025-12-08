@@ -88,11 +88,22 @@ function LoginPage() {
                     alignItems="center"
                     sx={{ height: 'calc(100vh - 500px)' }}
                 >
-                    <Paper elevation={3} sx={{ padding: 5, width: 450 , height: 400 }}>
+                    <Paper
+                        elevation={3}
+                        sx={{
+                            padding: 5,
+                            width: 450,
+                            height: 400,
+                            backgroundColor: "#F3FDE8",   // 파스텔 연두 (로그인 박스)
+                            color: "#1A1A1A",              // 글씨 선명하게 (짙은 회색 계열)
+                            fontWeight: 500                // 텍스트 가독성 강화
+                        }}
+                    >
                         <Typography variant="h5" textAlign="center" mb={2}>
                             로그인
                         </Typography>
 
+                        {/* 이메일 입력 */}
                         <TextField
                             fullWidth
                             label="이메일"
@@ -100,7 +111,14 @@ function LoginPage() {
                             value={form.email}
                             onChange={handleChange}
                             margin="dense"
+                            sx={{
+                                backgroundColor: "#FFFFFF",
+                                borderRadius: 1,
+                                mb: 2, // 아래 여백
+                            }}
                         />
+
+                        {/* 비밀번호 입력 */}
                         <TextField
                             fullWidth
                             label="비밀번호"
@@ -109,22 +127,37 @@ function LoginPage() {
                             value={form.password}
                             onChange={handleChange}
                             margin="dense"
+                            sx={{
+                                backgroundColor: "#FFFFFF",
+                                borderRadius: 1,
+                                mb: 3, // 아래 여백
+                            }}
                         />
-
                         <Button
                             variant="contained"
                             fullWidth
-                            sx={{ mt: 4, padding : 2}}
+                            sx={{
+                                mt: 2,
+                                padding: 1,
+                                backgroundColor:"#AED581",   // 로그인 박스보다 진한 연두
+                                color: "#1A1A1A",             // 글씨 선명하게
+                                '&:hover': {
+                                    backgroundColor:  "#C5E1A5", // hover 시 조금 더 진하게
+                                }
+                            }}
                             onClick={handleLogin}
                             disabled={loading}
                         >
                             {loading ? '로그인 중...' : '로그인'}
                         </Button>
 
+
+                        {/* 하단 버튼 그룹: 회원가입 + 계정/비밀번호 찾기 */}
                         {/* 하단 버튼 그룹: 회원가입 + 계정/비밀번호 찾기 */}
                         <Box display="flex" justifyContent="space-between" mt={3}>
                             <Button
                                 variant="text"
+                                sx={{ color: "#888888" }}  // 글자 회색
                                 onClick={() => navigate('/register')}
                             >
                                 회원가입
@@ -132,11 +165,13 @@ function LoginPage() {
 
                             <Button
                                 variant="text"
+                                sx={{ color: "#888888" }}  // 글자 회색
                                 onClick={() => navigate('/find_account')}
                             >
                                 계정/비밀번호 찾기
                             </Button>
                         </Box>
+
                     </Paper>
                 </Box>
             </Box>
