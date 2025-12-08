@@ -8,7 +8,7 @@ import java.util.List;
 public interface BookService {
 
     // 도서 등록
-    BookResponse createBook(BookCreateRequest request);
+    BookResponse createBook(BookCreateRequest request, Long userId);
 
     // 전체 조회
     List<BookResponse> getAllBooks();
@@ -20,7 +20,7 @@ public interface BookService {
     BookResponse updateBook(Long id, BookCreateRequest request);
 
     // 삭제
-    void deleteBook(Long id);
+    void deleteBook(Long id, Long userId);
 
     // 제목 검색
     List<BookResponse> searchBooks(String title);
