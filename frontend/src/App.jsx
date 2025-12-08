@@ -5,6 +5,18 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Enroll from './components/enroll.jsx';
 import Revision from './components/revision.jsx';
 
+const express = require('express');
+const app = express();
+const booksRouter = require('./books.routes');
+
+app.use(express.json());
+app.use(booksRouter);
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
 const theme = createTheme({
   palette: {
     primary: {
