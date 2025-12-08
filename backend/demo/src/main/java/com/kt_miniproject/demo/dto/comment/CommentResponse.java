@@ -1,12 +1,14 @@
 package com.kt_miniproject.demo.dto.comment;
 
 import com.kt_miniproject.demo.domain.comment.Comment;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CommentResponse {
     private Long id;
