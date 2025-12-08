@@ -2,27 +2,18 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import LoginPage from './components/login.jsx';
+import RegisterPage from './components/register.jsx'
+import MyPage from './components/my_page.jsx';
+import InfoPage from './components/infoPage.jsx'
+import MainPage from './components/MainPage.jsx'
+import Enroll from './components/enroll.jsx'
+import Revision from './components/revision-1.jsx'
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
+    palette: {
+        mode: 'light', // 필요에 따라 'dark' 가능
     },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-  typography: {
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-    ].join(','),
-  },
 });
 
 function App() {
@@ -39,7 +30,7 @@ function App() {
           {/*회원가입 페이지*/}
           <Route path="/register" element={<RegisterPage />} />
           {/*  마이페이지 */}
-           <Route path="/my_page" element={<MyPage />} />
+           <Route path="/my_page" element={<MyPage />} />{}
 
           <Route path="/enroll" element={<Enroll />} />
           <Route path="/revision/:id" element={<Revision />} />
@@ -49,6 +40,8 @@ function App() {
           <Route path="/test/revision3" element={<Navigate to="/revision/3" replace />} />
           {/*상세정보보기*/}
           <Route path="/books/:id/info" element={<InfoPage />} />
+            {/*메인 페이지*/}
+          <Route path="/books" element={<MainPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
