@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    // 특정 책(bookId)에 달린 댓글 목록 조회
-    List<Comment> findByBook_Id(Long bookId);
+    // 특정 도서(book)에 달린 댓글 목록 조회
+    List<Comment> findByBook(Book book);
+    List<Comment> findByBookId(Long bookId);
 }

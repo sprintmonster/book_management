@@ -2,81 +2,98 @@ package com.kt_miniproject.demo.service;
 
 import com.kt_miniproject.demo.domain.book.Book;
 import com.kt_miniproject.demo.domain.comment.Comment;
+import com.kt_miniproject.demo.repository.CommentRepository;
 import com.kt_miniproject.demo.domain.user.User;
 import com.kt_miniproject.demo.dto.comment.CommentCreateRequest;
 import com.kt_miniproject.demo.dto.comment.CommentResponse;
 import com.kt_miniproject.demo.repository.BookRepository;
-import com.kt_miniproject.demo.repository.CommentRepository;
 import com.kt_miniproject.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional(readOnly = true)     // ⭐ 기본은 조회 트랜잭션
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
 
+    /**
+     * 댓글 생성 — 쓰기 트랜잭션 필요
+     */
     @Override
-    @Transactional
-    public CommentResponse createComment(Long bookId, CommentCreateRequest request) {
+    @Transactional                //  여기만 readOnly false
+    public CommentResponse createComment(Long bookId, Long userId, CommentCreateRequest request) {
 
-        // 댓글 내용 검증
-        if (request.getContent() == null || request.getContent().trim().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "댓글 내용을 입력해야 합니다.");
-        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
-
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("도서를 찾을 수 없습니다."));
 
         Comment comment = Comment.builder()
-                .title(request.getTitle())
                 .content(request.getContent())
-                .createdAt(LocalDateTime.now())
-                .recommend(0)
-                .book(book)
                 .user(user)
+                .book(book)
                 .build();
 
-        commentRepository.save(comment);
-        return new CommentResponse(comment);
+        comment.setBook(book);  //  너가 원래 넣은 로직 그대로 유지
+
+        Comment saved = commentRepository.save(comment);
+
+        return CommentResponse.builder()
+                .id(saved.getId())
+                .content(saved.getContent())
+                .userId(user.getId())
+                .userName(user.getName())
+                .bookId(book.getId())
+                .createdAt(saved.getCreatedAt())
+                .build();
     }
 
-
+    /**
+     * 댓글 조회 — 기본 readOnly 트랜잭션 사용
+     */
     @Override
-    @Transactional
-    public void deleteComment(Long commentId, Long userId) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found"));
+    public List<CommentResponse> getComments(Long bookId) {
 
-        // 작성자만 삭제 가능
-        if (!comment.getUser().getId().equals(userId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "댓글을 삭제할 권한이 없습니다");
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("도서를 찾을 수 없습니다."));
+
+        List<Comment> comments = commentRepository.findByBook(book);
+
+        return comments.stream()
+                .map(c -> CommentResponse.builder()
+                        .id(c.getId())
+                        .content(c.getContent())
+                        .userId(c.getUser().getId())
+                        .userName(c.getUser().getName())
+                        .bookId(c.getBook().getId())
+                        .createdAt(c.getCreatedAt())
+                        .build()
+                )
+                .toList();
+    }
+
+    /**
+     * 댓글 삭제 — 쓰기 트랜잭션 필요
+     */
+    @Override
+    @Transactional               //  삭제도 write 트랜잭션
+    public void deleteComment(Long bookId, Long commentId) {
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다."));
+
+        if (!comment.getBook().getId().equals(bookId)) {
+            throw new IllegalArgumentException("이 도서의 댓글이 아닙니다.");
         }
 
         commentRepository.delete(comment);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CommentResponse> getCommentsByBook(Long bookId) {
-        // repository 네이밍은 findByBook_Id로 되어 있어야 안전함
-        return commentRepository.findByBook_Id(bookId)
-                .stream()
-                .map(CommentResponse::new)
-                .collect(Collectors.toList());
     }
 }
