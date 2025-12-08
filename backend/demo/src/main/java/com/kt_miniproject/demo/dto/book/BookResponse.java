@@ -15,11 +15,19 @@ public class BookResponse {
     private String content;
     private String coverImageUrl;
 
+    private Long writerId;
+    private String writerName;
+
+
     //  Book 엔티티를 받아서 응답 DTO로 변환하는 생성자
     public BookResponse(Book book) {
         this.id = book.getId();
         this.title = book.getTitle();
         this.content = book.getContent();
         this.coverImageUrl = book.getCoverImageUrl();
+        if (book.getUser() != null) {
+            this.writerId = book.getUser().getId();
+            this.writerName = book.getUser().getName();
+        }
     }
 }
