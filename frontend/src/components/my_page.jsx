@@ -1,10 +1,31 @@
-import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Paper, List, ListItem, ListItemText, Pagination } from '@mui/material';
+// src/components/MyPage.jsx
+import React, { useState, useEffect } from 'react';
+import {
+    Box, TextField, Button, Typography, Paper,
+    List, ListItem, ListItemText, Pagination,
+    AppBar, Toolbar, IconButton
+} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from 'axios';
+
+const theme = createTheme({
+    palette: {
+        primary: { main: "#AED581"},
+        secondary: { main: '#CDDC39' },
+    },
+});
 
 function MyPage() {
+    const navigate = useNavigate();
+
     const [userInfo, setUserInfo] = useState({
-        email: 'user@example.com',
+        userId: '',
+        name: '',
+        email: '',
         password: '',
+        role: 0,
         apiKey: '',
     });
 
@@ -16,8 +37,8 @@ function MyPage() {
         { id: 5, title: '다섯 번째 게시글', date: '2025-12-05' },
     ]);
 
-    const [page, setPage] = useState(1); // 현재 페이지
-    const postsPerPage = 3; // 페이지당 글 수
+    const [page, setPage] = useState(1);
+    const postsPerPage = 5;
 
     const handleChange = (e) => {
         setUserInfo({
@@ -26,92 +47,189 @@ function MyPage() {
         });
     };
 
-    const handleSave = () => {
-        console.log('회원정보 저장:', userInfo);
+    const handleSave = async () => {
+        // 여기서는 더미 알림
         alert('회원정보가 저장되었습니다 (더미)');
-        // 실제: API 호출 후 상태 업데이트
     };
 
-    // 현재 페이지에 표시할 게시글
+    const handleDelete = (id) => {
+        if (window.confirm("정말 삭제하시겠습니까?")) {
+            setPosts(posts.filter(post => post.id !== id));
+            alert("삭제되었습니다.");
+        }
+    };
+
+    const handlePageChange = (event, value) => setPage(value);
+
     const indexOfLastPost = page * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
-    const handlePageChange = (event, value) => {
-        setPage(value);
-    };
+    // -------------------------
+    // API 호출: 사용자 정보 조회
+    // -------------------------
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const userId = localStorage.getItem('userId'); // 로그인 시 저장된 ID 사용
+                if (!userId) return;
+
+                const response = await axios.get(`/api/v1/users/${userId}`);
+                if (response.data.status === 'success') {
+                    const data = response.data.data;
+                    setUserInfo(prev => ({
+                        ...prev,
+                        userId: data.userId,
+                        name: data.name,
+                        email: data.email,
+                        role: data.role,
+                        apiKey: data.api_key || '',
+                    }));
+                }
+            } catch (err) {
+                alert(err.response?.data?.message || '사용자 정보를 불러오지 못했습니다.');
+            }
+        };
+
+        fetchUserInfo();
+    }, []);
+    // useEffect(() => {
+    //     // 🔥 테스트를 위해 더미 데이터로 값 넣기
+    //     setUserInfo({
+    //         userId: "1",
+    //         name: "홍길동",
+    //         email: "test123@example.com",
+    //         password: "",   // 빈칸 가능
+    //         role: 0,
+    //         apiKey: "ABC-123-DEF"
+    //     });
+    // }, []);
 
     return (
-        <Box display="flex" sx={{ p: 3, gap: 3 }}>
-            {/* 왼쪽: 회원정보 */}
-            <Paper elevation={3} sx={{ p: 3, width: 300 }}>
-                <Typography variant="h6" mb={2}>
-                    회원정보
-                </Typography>
+        <ThemeProvider theme={theme}>
+            <Box sx={{ backgroundColor: "#F3FDE9", minHeight: '100vh', pb: 5 }}>
 
-                <TextField
-                    fullWidth
-                    label="이메일"
-                    name="email"
-                    value={userInfo.email}
-                    InputProps={{
-                        readOnly: true,
-                    }}
-                    margin="dense"
+            <AppBar position="static" color="transparent" elevation={0}
                     sx={{
-                        '& .MuiInputLabel-root': { color: 'black' }, // 라벨 색상
-                        '& .MuiInputBase-input': { color: 'black' }, // 입력 텍스트 색상
-                    }}
-                />
+                        bgcolor: '#D8E8B0',   // ⬅ 색상 변경 (구분감 있는 연녹 톤)
+                        color: 'black',
+                        height: '90px',       // ⬅ 상단바 높이 증가
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}>
+                    <Toolbar>
+                        <IconButton edge="start" color="inherit" onClick={() => navigate('/MainPage')}>
+                            <ArrowBackIcon />
+                        </IconButton>
+                        <Typography variant="h6" sx={{ ml: 1 }}>마이페이지</Typography>
+                    </Toolbar>
+                </AppBar>
 
-                <TextField
-                    fullWidth
-                    label="비밀번호"
-                    name="password"
-                    type="password"
-                    value={userInfo.password}
-                    onChange={handleChange}
-                    margin="dense"
-                />
-                <TextField
-                    fullWidth
-                    label="API Key"
-                    name="apiKey"
-                    value={userInfo.apiKey}
-                    onChange={handleChange}
-                    margin="dense"
-                    placeholder="선택 입력"
-                />
+                <Box display="flex" sx={{ p: 3, gap: 3, mt: 10,minHeight: '70vh'}}>
+                    {/* 왼쪽: 회원정보 */}
+                    <Paper elevation={3} sx={{ p: 4, width: 500, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <Typography variant="h6" mb={2}>회원정보</Typography>
 
-                <Button variant="contained" fullWidth sx={{ mt: 2 }} onClick={handleSave}>
-                    저장
-                </Button>
-            </Paper>
+                        {/* 이름 */}
+                        <TextField
+                            fullWidth
+                            label="이름"
+                            name="name"
+                            value={userInfo.name}
+                            margin="dense"
+                            InputProps={{
+                                readOnly: true,
+                                style: { color: "black" }
+                            }}
+                        />
 
-            {/* 오른쪽: 게시글 목록 */}
-            <Paper elevation={3} sx={{ flex: 1, p: 3 }}>
-                <Typography variant="h6" mb={2}>
-                    내 게시글
-                </Typography>
-                <List>
-                    {currentPosts.map((post) => (
-                        <ListItem key={post.id} button>
-                            <ListItemText primary={post.title} secondary={post.date} />
-                        </ListItem>
-                    ))}
-                </List>
+                        {/* 이메일 */}
+                        <TextField
+                            fullWidth
+                            label="이메일"
+                            name="email"
+                            value={userInfo.email}
+                            margin="dense"
+                            InputProps={{
+                                readOnly: true,
+                                style: { color: "black" }
+                            }}
+                        />
 
-                {/* 페이지네이션 */}
-                <Box display="flex" justifyContent="center" mt={2}>
-                    <Pagination
-                        count={Math.ceil(posts.length / postsPerPage)}
-                        page={page}
-                        onChange={handlePageChange}
-                        color="primary"
-                    />
+                        {/* 비밀번호 */}
+                        <TextField
+                            fullWidth
+                            label="비밀번호"
+                            name="password"
+                            type="password"
+                            value={userInfo.password}
+                            onChange={handleChange}
+                            margin="dense"
+                        />
+
+                        {/* API Key */}
+                        <TextField
+                            fullWidth
+                            label="API Key"
+                            name="apiKey"
+                            value={userInfo.apiKey}
+                            onChange={handleChange}
+                            margin="dense"
+                            placeholder="선택 입력"
+                        />
+
+                        <Button variant="contained" fullWidth sx={{
+                            mt: 2,
+                            padding: 1,
+                            backgroundColor:"#AED581",   // 로그인 박스보다 진한 연두
+                            color: "#1A1A1A",             // 글씨 선명하게
+                            '&:hover': {
+                                backgroundColor:  "#C5E1A5", // hover 시 조금 더 진하게
+                            }
+                        }} onClick={handleSave}>
+                            저장
+                        </Button>
+                    </Paper>
+
+
+                    {/* 오른쪽: 게시글 목록 */}
+                    <Paper elevation={3} sx={{ flex: 1, p: 5, minHeight: 600, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>                        <Typography variant="h6" mb={2}>내 게시글</Typography>
+                        <List>
+                            {currentPosts.map(post => (
+                                <ListItem key={post.id} secondaryAction={
+                                    <>
+                                        <Button
+                                            size="small"
+                                            onClick={() => navigate(`/revision/${post.id}`, { state: post })}
+                                        >
+                                            수정
+                                        </Button>
+                                        <Button
+                                            size="small"
+                                            color="error"
+                                            onClick={() => handleDelete(post.id)}
+                                        >
+                                            삭제
+                                        </Button>
+                                    </>
+                                }>
+                                    <ListItemText primary={post.title} secondary={post.date} />
+                                </ListItem>
+                            ))}
+                        </List>
+
+                        <Box display="flex" justifyContent="center" mt={2}>
+                            <Pagination
+                                count={Math.ceil(posts.length / postsPerPage)}
+                                page={page}
+                                onChange={handlePageChange}
+                                color="primary"
+                            />
+                        </Box>
+                    </Paper>
                 </Box>
-            </Paper>
-        </Box>
+            </Box>
+        </ThemeProvider>
     );
 }
 

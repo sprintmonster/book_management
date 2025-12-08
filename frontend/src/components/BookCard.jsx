@@ -12,6 +12,7 @@ function BookCard({
                   }) {
     const navigate = useNavigate();
 
+
     // 가짜 데이터(임시) 기본값
     const id = bookid || 1;
     const displayTitle = title || '글 제목';
@@ -19,6 +20,7 @@ function BookCard({
     const displayContent =
         content ||
         '대충 작성 글 AI로 요약한 것을 넣었다는 내용 대충 작성 글 AI로 요약한 것을 넣었다는 내용 대충 작성 글 AI로 요약한 것을 넣었다는 내용.';
+
     const displayImage =
         imageUrl ||
         'https://via.placeholder.com/160x160?text=%EC%9D%B4%EB%AF%B8%EC%A7%80';
@@ -81,6 +83,7 @@ function BookCard({
                     <Typography variant="body2">조회수 : {displayViews}</Typography>
                 </Box>
 
+                {/* 내용 */}
                 <Typography variant="body2" sx={{ lineHeight: 1.6 }}>
                     {displayContent}
                 </Typography>
