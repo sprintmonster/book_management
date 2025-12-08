@@ -6,22 +6,22 @@ import MainPage from "./components/MainPage.jsx";
 import InfoPage from "./components/infoPage.jsx";
 import MyPage  from "./components/my_page.jsx";
 import Enroll from './components/enroll.jsx';
-import Revision from './components/revision-1.jsx';
+import Revision from './components/revision.jsx';
 import LoginPage from './components/login.jsx'; // ← login import 추가
 import RegisterPage from './components/register.jsx';
 import FindAccount from "./components/find_account.jsx"; // ← register import 추가
 
-const express = require('express');
-const app = express();
-const booksRouter = require('./books.routes');
-
-app.use(express.json());
-app.use(booksRouter);
-
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// const express = require('express');
+// const app = express();
+// const booksRouter = require('./books.routes');
+//
+// app.use(express.json());
+// app.use(booksRouter);
+//
+// const PORT = 3000;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
 
 const theme = createTheme({
   palette: {
@@ -75,10 +75,10 @@ function App() {
             <Route path="/infoPage" element={<InfoPage />} />
 
 
-            {/* 테스트용 직접 링크 */}
-          <Route path="/test/revision1" element={<Navigate to="/revision/1" replace />} />
-          <Route path="/test/revision2" element={<Navigate to="/revision/2" replace />} />
-          <Route path="/test/revision3" element={<Navigate to="/revision/3" replace />} />
+          {/*  /!* 테스트용 직접 링크 *!/*/}
+          {/*<Route path="/test/revision1" element={<Navigate to="/revision/1" replace />} />*/}
+          {/*<Route path="/test/revision2" element={<Navigate to="/revision/2" replace />} />*/}
+          {/*<Route path="/test/revision3" element={<Navigate to="/revision/3" replace />} />*/}
           {/*상세정보보기*/}
           <Route path="/books/:id/info" element={<InfoPage />} />
             <Route path="/enroll" element={<Enroll />} />

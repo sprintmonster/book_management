@@ -38,7 +38,7 @@ function MyPage() {
     ]);
 
     const [page, setPage] = useState(1);
-    const postsPerPage = 3;
+    const postsPerPage = 5;
 
     const handleChange = (e) => {
         setUserInfo({
@@ -109,7 +109,14 @@ function MyPage() {
         <ThemeProvider theme={theme}>
             <Box sx={{ backgroundColor: "#F3FDE9", minHeight: '100vh', pb: 5 }}>
 
-            <AppBar position="static" color="transparent" elevation={0}>
+            <AppBar position="static" color="transparent" elevation={0}
+                    sx={{
+                        bgcolor: '#D8E8B0',   // ⬅ 색상 변경 (구분감 있는 연녹 톤)
+                        color: 'black',
+                        height: '90px',       // ⬅ 상단바 높이 증가
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}>
                     <Toolbar>
                         <IconButton edge="start" color="inherit" onClick={() => navigate('/MainPage')}>
                             <ArrowBackIcon />
@@ -118,9 +125,9 @@ function MyPage() {
                     </Toolbar>
                 </AppBar>
 
-                <Box display="flex" sx={{ p: 3, gap: 3, mt: 10 }}>
+                <Box display="flex" sx={{ p: 3, gap: 3, mt: 10,minHeight: '70vh'}}>
                     {/* 왼쪽: 회원정보 */}
-                    <Paper elevation={3} sx={{ p: 3, width: 300 }}>
+                    <Paper elevation={3} sx={{ p: 4, width: 500, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                         <Typography variant="h6" mb={2}>회원정보</Typography>
 
                         {/* 이름 */}
@@ -186,8 +193,7 @@ function MyPage() {
 
 
                     {/* 오른쪽: 게시글 목록 */}
-                    <Paper elevation={3} sx={{ flex: 1, p: 4 }}>
-                        <Typography variant="h6" mb={2}>내 게시글</Typography>
+                    <Paper elevation={3} sx={{ flex: 1, p: 5, minHeight: 600, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>                        <Typography variant="h6" mb={2}>내 게시글</Typography>
                         <List>
                             {currentPosts.map(post => (
                                 <ListItem key={post.id} secondaryAction={

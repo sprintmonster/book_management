@@ -23,7 +23,13 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import axios from 'axios';
-
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+const theme = createTheme({
+    palette: {
+        primary: { main: "#AED581"},
+        secondary: { main: '#CDDC39' },
+    },
+});
 function Enroll() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -152,7 +158,10 @@ function Enroll() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+      <ThemeProvider theme={theme}>
+          <Box sx={{ backgroundColor: "#F3FDE9", minHeight: '100vh', pb: 5 }}>
+
+          <Container maxWidth="md" sx={{ py: 4 }}>
       <Paper elevation={3} sx={{ p: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
           신규 도서 등록
@@ -292,7 +301,7 @@ function Enroll() {
               variant="outlined"
               size="large"
               fullWidth
-              onClick={() => navigate('/books')}
+              onClick={() => navigate('/MainPage')}
               disabled={loading}
             >
               취소
@@ -301,6 +310,8 @@ function Enroll() {
         </Box>
       </Paper>
     </Container>
+          </Box>
+      </ThemeProvider>
   );
 }
 

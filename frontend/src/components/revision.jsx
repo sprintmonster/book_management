@@ -23,7 +23,15 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import axios from 'axios';
+import {createTheme,ThemeProvider} from "@mui/material/styles";
 
+
+const theme = createTheme({
+    palette: {
+        primary: { main: "#AED581"},
+        secondary: { main: '#CDDC39' },
+    },
+});
 function Revision() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -202,7 +210,10 @@ function Revision() {
   }
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+      <ThemeProvider theme={theme}>
+          <Box sx={{ backgroundColor: "#F3FDE9", minHeight: '100vh', pb: 5 }}>
+
+          <Container maxWidth="md" sx={{ py: 4 }}>
       <Paper elevation={3} sx={{ p: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
           도서 수정
@@ -356,6 +367,9 @@ function Revision() {
         </Box>
       </Paper>
     </Container>
+          </Box>
+      </ThemeProvider>
+
   );
 }
 
