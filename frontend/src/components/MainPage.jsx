@@ -13,80 +13,82 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
-// import bookService from '../components/bookService';   // 도서 데이터를 가져오거나 조작하는 로직을 모아 둔 모듈을 불러오는 구문
-// bookService 변수는 미구현 구간
+import axios from 'axios';
 import BookCard from '../components/BookCard';
-import axios from 'axios'; // 로그아웃 API 요청용
 
 function MainPage() {
-    const navigate = useNavigate(); // 페이지 이동을 위한 hook
+    const navigate = useNavigate();
 
-    // 도서 목록 상태 (추천 여부 포함)
-    const [books, setBooks] = useState([
-        { id: 1, isRecommended: true },
-        { id: 2, isRecommended: false },
-    ]);
+    // API에서 받아온 책 목록
+    const [books, setBooks] = useState([]);
 
-    // 검색 상태: 입력 중인 값과 실제 검색어 분리
-    const [searchKeyword, setSearchKeyword] = useState(''); // 사용자가 입력 중인 값
-    const [searchTerm, setSearchTerm] = useState(''); // 실제 검색 실행 기준 값
+    // 검색 입력값 / 실제 검색에 사용하는 값
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
-    // 추천 도서와 일반 게시글을 분류한 배열
-    const recommendedBooks = books.filter((b) => b.isRecommended);
-    const normalBooks = books.filter((b) => !b.isRecommended);
+    // 추천/일반 구분 (임시: bookId가 짝수면 추천이라고 가정)
+    const recommendedBooks = books.filter((b) => b.bookid % 2 === 0);
+    const normalBooks = books.filter((b) => b.bookid % 2 !== 0);
 
-    // 로그아웃 기능
+    // 로그아웃 + 로그인 페이지 이동
     const handleLogout = async () => {
         try {
-            await axios.post('/api/auth/logout'); // 로그아웃 API 요청
+            await axios.post('/api/auth/logout');
         } catch (e) {
             console.error('로그아웃 실패:', e);
         } finally {
-            navigate('/login'); // 로그인 페이지로 이동
+            navigate('/login');
         }
     };
 
-    // 검색창 입력 값 변화 시 상태 업데이트
+    // 검색 입력 변경
     const handleSearchInputChange = (e) => {
         setSearchKeyword(e.target.value);
     };
 
-    // 검색 실행(버튼 클릭 또는 엔터)
+    // 검색 버튼 클릭 또는 엔터
     const handleSearchSubmit = (e) => {
         if (e) e.preventDefault();
-        setSearchTerm(searchKeyword); // 검색어 업데이트 → useEffect trigger
+        setSearchTerm(searchKeyword.trim()); // 지금은 API에 안 쓰지만 상태만 분리
     };
 
-    // 검색어(searchTerm)가 변경될 때 서버에서 도서 목록을 조회
+    // 도서 목록 조회: /api/v1/books/search (GET, 입력데이터 없음)
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchBooks = async () => {
             try {
-                const data = await bookService.fetchBooks(searchTerm);
-                setBooks(data);
+                const response = await axios.get('/books');
+                const data = response.data;
+                // 단일 객체 -> 배열로 변환
+                const list = Array.isArray(data) ? data : [data];
+                setBooks(list);
             } catch (err) {
                 console.error('도서 목록 조회 실패:', err);
+                setBooks([]);
             }
         };
-        fetchData();
+
+        fetchBooks();
     }, [searchTerm]);
 
-    // 글쓰기(신규 도서 등록) 페이지 이동
     const handleNewBook = () => {
-        navigate('/enroll'); // 등록 페이지로 이동
+        navigate('/enroll'); // 글 생성 화면으로 이동
     };
 
     return (
         <Box sx={{ minHeight: '100vh', bgcolor: '#f2f2f2' }}>
-            {/* 상단 네비게이션 바(AppBar) */}
-            <AppBar position="static" elevation={0} sx={{ bgcolor: '#f3fde8', color: 'black' }}>
+            {/* 상단 AppBar */}
+            <AppBar
+                position="static"
+                elevation={0}
+                sx={{ bgcolor: '#D9D9D9', color: 'black' }}
+            >
                 <Toolbar sx={{ px: 2 }}>
-
-                    {/* 뒤로가기/로그아웃 버튼 */}
+                    {/* 좌측: 화살표(로그아웃 + 로그인 페이지 이동) */}
                     <IconButton edge="start" sx={{ mr: 2 }} onClick={handleLogout}>
                         <ArrowBackIcon />
                     </IconButton>
 
-                    {/* 상단 검색 영역 (가운데 배치) */}
+                    {/* 중앙: 검색창 + 검색 버튼 */}
                     <Box
                         sx={{
                             flexGrow: 1,
@@ -107,7 +109,6 @@ function MainPage() {
                                 maxWidth: 960,
                             }}
                         >
-                            {/* 검색어 입력창 */}
                             <TextField
                                 fullWidth
                                 size="small"
@@ -123,9 +124,8 @@ function MainPage() {
                                     },
                                 }}
                             />
-
-                            {/* 검색 버튼 */}
                             <IconButton
+                                type="submit"
                                 sx={{
                                     bgcolor: '#000',
                                     color: '#fff',
@@ -138,7 +138,7 @@ function MainPage() {
                         </Box>
                     </Box>
 
-                    {/* 마이페이지 버튼 */}
+                    {/* 우측: 마이페이지 버튼 */}
                     <Button
                         variant="contained"
                         onClick={() => navigate('/my_page')}
@@ -157,10 +157,9 @@ function MainPage() {
                 </Toolbar>
             </AppBar>
 
-            {/* 본문 컨테이너 */}
+            {/* 본문 영역 */}
             <Container maxWidth="lg" sx={{ mt: 4, mb: 6 }}>
-
-                {/* +신규 버튼 (본문 우측 상단) */}
+                {/* AppBar 밖 우측 상단 +신규 버튼 */}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
                     <Button
                         variant="contained"
@@ -177,8 +176,10 @@ function MainPage() {
                     </Button>
                 </Box>
 
-                {/* 추천책 목록 */}
-                <Typography variant="h5" sx={{ mb: 2 }}>추천책</Typography>
+                {/* 추천책 섹션 */}
+                <Typography variant="h5" sx={{ mb: 2 }}>
+                    추천책
+                </Typography>
                 <Paper sx={{ bgcolor: '#D9D9D9', p: 3, mb: 4 }} elevation={0}>
                     {recommendedBooks.length === 0 ? (
                         <Typography variant="body2" color="text.secondary">
@@ -186,22 +187,23 @@ function MainPage() {
                         </Typography>
                     ) : (
                         recommendedBooks.map((book) => (
-                            <Box key={book.id} sx={{ mb: 2 }}>
-                                {/* BookCard: 책 카드 UI 컴포넌트 */}
+                            <Box key={book.bookid} sx={{ mb: 2 }}>
                                 <BookCard
-                                    if = {book.id}
+                                    id={book.bookid}             // ← id 전달
                                     title={book.title}
                                     content={book.content}
-                                    imageUrl={book.coverImageUrl || book.aiCoverUrl}
-                                    views={book.viewCount}
+                                    imageUrl={book.imageUrl}
+                                    views={book.views}
                                 />
                             </Box>
                         ))
                     )}
                 </Paper>
 
-                {/* 일반 게시글 목록 */}
-                <Typography variant="h5" sx={{ mb: 2 }}>게시글</Typography>
+                {/* 게시글 섹션 */}
+                <Typography variant="h5" sx={{ mb: 2 }}>
+                    게시글
+                </Typography>
                 <Paper sx={{ bgcolor: '#D9D9D9', p: 3 }} elevation={0}>
                     {normalBooks.length === 0 ? (
                         <Typography variant="body2" color="text.secondary">
@@ -209,13 +211,13 @@ function MainPage() {
                         </Typography>
                     ) : (
                         normalBooks.map((book) => (
-                            <Box key={book.id} sx={{ mb: 2 }}>
+                            <Box key={book.bookid} sx={{ mb: 2 }}>
                                 <BookCard
-                                    id={book.id}
+                                    id={book.bookid}             // ← id 전달
                                     title={book.title}
                                     content={book.content}
-                                    imageUrl={book.coverImageUrl || book.aiCoverUrl}
-                                    views={book.viewCount}
+                                    imageUrl={book.imageUrl}
+                                    views={book.views}
                                 />
                             </Box>
                         ))
