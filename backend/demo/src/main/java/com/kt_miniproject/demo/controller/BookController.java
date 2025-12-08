@@ -21,9 +21,10 @@ public class BookController {
     // 1. 도서 등록 (Create)
     @PostMapping
     public ResponseEntity<BookResponse> createBook(
-            @RequestBody BookCreateRequest request) {
+            @RequestBody BookCreateRequest request,
+            @RequestParam("userId") Long userId) {
 
-        BookResponse response = bookService.createBook(request);
+        BookResponse response = bookService.createBook(request,userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -60,8 +61,9 @@ public class BookController {
     // 5. 도서 삭제 (Delete)
     // DELETE /api/books/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-        bookService.deleteBook(id);
+    public ResponseEntity<Void> deleteBook(@PathVariable("id") Long id,
+                                           @RequestParam("userId") Long userId) {
+        bookService.deleteBook(id,userId);
         return ResponseEntity.noContent().build();   // 204 응답
     }
 

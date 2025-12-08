@@ -4,6 +4,7 @@ import com.kt_miniproject.demo.domain.book.Book;
 import com.kt_miniproject.demo.domain.user.User;
 import com.kt_miniproject.demo.dto.book.BookCreateRequest;
 import com.kt_miniproject.demo.dto.book.BookResponse;
+import com.kt_miniproject.demo.exception.DeletionException;
 import com.kt_miniproject.demo.exception.ResourceNotFoundException;
 import com.kt_miniproject.demo.repository.BookRepository;
 import com.kt_miniproject.demo.repository.UserRepository;
@@ -20,20 +21,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service               // 서비스 빈 등록
+@Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
-
+@Transactional(readOnly = true)   //  기본은 전체 조회 트랜잭션
 public class BookServiceImpl implements BookService {
 
     //AutoWired 대신 RequiredArgsConstructor로 의존성 주입
     private final BookRepository bookRepository;
-    private final RestTemplate restTemplate;
     private final UserRepository userRepository;
+    private final RestTemplate restTemplate;
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/images/generations";
 
-
-    // 도서 등록
+    /**
+     * 도서 등록 (쓰기 → 별도 트랜잭션)
+     */
     @Override
     @Transactional
     public BookResponse createBook(BookCreateRequest request) {
@@ -50,8 +51,11 @@ public class BookServiceImpl implements BookService {
         return new BookResponse(saved);
     }
 
-    // 전체 조회
+    /**
+     * 전체 조회 (읽기 전용)
+     */
     @Override
+    @Transactional(readOnly = true)
     public List<BookResponse> getAllBooks() {
         return bookRepository.findAll()
                 .stream()
@@ -59,43 +63,61 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
-    // 상세 조회
+    /**
+     * 상세 조회 (읽기 전용)
+     */
     @Override
+    @Transactional(readOnly = true)
     public BookResponse getBookById(Long id) {
+
         Book book = bookRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Book not found. id=" + id)); //  illegalArgument에서 직접 처리한 예외로 변경
+                        new ResourceNotFoundException("Book not found. id=" + id)
+                );
+
         return new BookResponse(book);
     }
 
-    // 수정
+    /**
+     * 수정 (쓰기 트랜잭션 + Dirty Checking)
+     */
     @Override
-    @Transactional
+    @Transactional  //  변경 감지를 위한 트랜잭션
     public BookResponse updateBook(Long id, BookCreateRequest request) {
+
         Book book = bookRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Book not found. id=" + id)); //  illegalArgument에서 직접 처리한 예외로 변경
+                        new ResourceNotFoundException("Book not found. id=" + id)
+                );
 
+        // Dirty Checking이 자동 update 수행
         book.setTitle(request.getTitle());
         book.setContent(request.getContent());
         book.setCoverImageUrl(request.getCoverImageUrl());
 
-        // 변경감지(dirty checking)로 자동 update
         return new BookResponse(book);
     }
 
-    // 삭제
+    /**
+     * 삭제 (쓰기 트랜잭션)
+     */
     @Override
     @Transactional
-    public void deleteBook(Long id) {
-        if (!bookRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Book not found. id=" + id); //  illegalArgument에서 직접 처리한 예외로 변경
+    public void deleteBook(Long id,Long userId) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+        // 작성자만 삭제 가능 하게 하는거
+        if (!book.getUser().getId().equals(userId)) {
+            throw new DeletionException("책을 삭제할 권한이 없습니다");
         }
         bookRepository.deleteById(id);
     }
 
-    // 제목 검색 (like 검색)
+    /**
+     * 검색 (읽기 전용)
+     */
     @Override
+    @Transactional(readOnly = true)
     public List<BookResponse> searchBooks(String title) {
         if (title == null || title.isBlank()) {
             return getAllBooks();
