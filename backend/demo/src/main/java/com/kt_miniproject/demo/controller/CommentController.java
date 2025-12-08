@@ -11,48 +11,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/books")   // 🔹 여기만 /api/books 로 단순하게
+@RequestMapping("/api/books/{bookId}/comments") // 🔹 bookId 포함
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
 
-    /**
-     * 1. 댓글 생성
-     * POST /api/books/{bookId}/comments?userId=1
-     */
-    @PostMapping("/{bookId}/comments")
+    // 댓글 작성
+    @PostMapping
     public ResponseEntity<CommentResponse> createComment(
-            @PathVariable Long bookId,
-            @RequestParam Long userId,
+            @PathVariable("bookId") Long bookId,
             @RequestBody CommentCreateRequest request
     ) {
-        CommentResponse response = commentService.createComment(bookId, userId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        CommentResponse response = commentService.createComment(bookId, request);
+        return ResponseEntity.ok(response);
     }
 
-    /**
-     * 2. 특정 도서의 댓글 목록 조회
-     * GET /api/books/{bookId}/comments
-     */
-    @GetMapping("/{bookId}/comments")
-    public ResponseEntity<List<CommentResponse>> getComments(
-            @PathVariable Long bookId
+    // 책별 댓글 조회
+    @GetMapping
+    public ResponseEntity<List<CommentResponse>> getCommentsByBook(
+            @PathVariable("bookId") Long bookId
     ) {
-        List<CommentResponse> comments = commentService.getComments(bookId);
+        List<CommentResponse> comments = commentService.getCommentsByBook(bookId);
         return ResponseEntity.ok(comments);
     }
 
-    /**
-     * 3. 댓글 삭제
-     * DELETE /api/books/{bookId}/comments/{commentId}
-     */
-    @DeleteMapping("/{bookId}/comments/{commentId}")
+    // 댓글 삭제
+    @DeleteMapping("/{commentId}")
     public ResponseEntity<Void> deleteComment(
-            @PathVariable Long bookId,
-            @PathVariable Long commentId
+            @PathVariable("bookId") Long bookId,
+            @PathVariable("commentId") Long commentId,
+            @RequestParam("userId") Long userId
     ) {
-        commentService.deleteComment(bookId, commentId);
+        commentService.deleteComment(commentId, userId);
         return ResponseEntity.noContent().build();
     }
 }
