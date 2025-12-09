@@ -46,7 +46,7 @@ function Revision() {
     const [uploadedImage, setUploadedImage] = useState(null);
     const [aiPrompt, setAiPrompt] = useState('');
     const [apiKey, setApiKey] = useState('');
-    const [previewImage, setPreviewImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null); // 기존/업로드/AI 공통 미리보기
     const [aiImageConfirmed, setAiImageConfirmed] = useState(false);
 
     const [loading, setLoading] = useState(false);
@@ -242,26 +242,15 @@ function Revision() {
         setSuccess('');
 
         try {
-            // 1) 제목/내용 및 업로드 이미지는 기존 PUT /api/books/{id} 로 처리
-            const formDataToSend = new FormData();
-            formDataToSend.append('title', formData.title);
-            formDataToSend.append('content', formData.content);
-
-            if (formData.coverImageType === 'upload' && uploadedImage) {
-                // 새 파일 업로드
-                formDataToSend.append('coverImage', uploadedImage);
-            }
-            // coverImageType === 'existing' 또는 'ai' 인 경우,
-            // 여기서는 파일을 보내지 않음 (기존 이미지 유지 또는 별도 API에서 URL만 업데이트)
+            // 1) 제목/내용을 JSON으로 수정
+            const payload = {
+                title: formData.title,
+                content: formData.content,
+            };
 
             const response = await axios.put(
                 `/api/books/${id}`,
-                formDataToSend,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                },
+                payload,
             );
 
             if (!response.data?.success) {
@@ -271,8 +260,12 @@ function Revision() {
                 );
             }
 
-            // 2) 표지 방식이 AI인 경우, 선택된 이미지 URL만 별도의 엔드포인트로 업데이트
-            if (formData.coverImageType === 'ai' && previewImage) {
+            // 2) 표지 이미지가 있는 경우(AI/업로드 공통) URL을 별도 엔드포인트로 업데이트
+            if (
+                previewImage &&
+                (formData.coverImageType === 'ai' ||
+                    formData.coverImageType === 'upload')
+            ) {
                 await axios.post('/api/books/updateBookCoverUrl', {
                     bookId: id,
                     coverImageUrl: previewImage,

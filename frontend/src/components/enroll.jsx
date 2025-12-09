@@ -32,7 +32,7 @@ function Enroll() {
     const [uploadedImage, setUploadedImage] = useState(null);
     const [aiPrompt, setAiPrompt] = useState('');
     const [apiKey, setApiKey] = useState('');
-    const [previewImage, setPreviewImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null); // 업로드/AI 공통 미리보기
     const [aiImageConfirmed, setAiImageConfirmed] = useState(false);
 
     const [loading, setLoading] = useState(false);
@@ -56,7 +56,7 @@ function Enroll() {
         }
     };
 
-    // 파일 업로드
+    // 파일 업로드 (미리보기는 data URL로 previewImage에 저장)
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -95,7 +95,6 @@ function Enroll() {
                         Authorization: `Bearer ${apiKey}`, // 키 노출 허용 전제
                     },
                     body: JSON.stringify({
-                        // 필요하면 model, size 조정
                         prompt: aiPrompt,
                         n: 1,
                         size: '512x512',
@@ -104,7 +103,7 @@ function Enroll() {
             );
 
             if (!response.ok) {
-                const errData = await response.json();
+                const errData = await response.json().catch(() => ({}));
                 throw new Error(
                     errData.error?.message || '이미지 생성 실패',
                 );
@@ -144,7 +143,7 @@ function Enroll() {
         await handleGenerateAI();
     };
 
-    // 도서 등록
+    // 도서 등록 (JSON 바디 + 이미지 URL은 updateBookCoverUrl로 따로 전송)
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -176,38 +175,17 @@ function Enroll() {
         setSuccess('');
 
         try {
-            // 1) 기본 도서 정보 먼저 등록
-            const formDataToSend = new FormData();
-            formDataToSend.append('title', formData.title);
-            formDataToSend.append('content', formData.content);
-
-            // 업로드 방식일 때만 파일을 함께 전송
-            if (
-                formData.coverImageType === 'upload' &&
-                uploadedImage
-            ) {
-                formDataToSend.append('coverImage', uploadedImage);
-            }
-
-            console.log('신규 도서 생성 요청 데이터:', {
+            // 1) 기본 도서 정보 JSON으로 등록
+            const payload = {
                 title: formData.title,
                 content: formData.content,
-                coverType: formData.coverImageType,
-            });
+            };
 
-            const createRes = await axios.post(
-                '/api/books',
-                formDataToSend,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                },
-            );
+            console.log('신규 도서 생성 요청 데이터(JSON):', payload);
 
+            const createRes = await axios.post('/api/books', payload);
             // 생성된 도서 id 추출 (백엔드 응답 형식에 따라 조정)
-            const created =
-                createRes.data?.data || createRes.data || {};
+            const created = createRes.data?.data || createRes.data || {};
             const createdId = created.id;
 
             if (!createdId) {
@@ -216,23 +194,21 @@ function Enroll() {
                 );
             }
 
-            // 2) 표지 방식이 AI일 경우, updateBookCoverUrl로 URL만 따로 저장
+            // 2) 표지 이미지가 있는 경우(AI/업로드 공통) URL을 별도 엔드포인트로 저장
             if (
-                formData.coverImageType === 'ai' &&
-                previewImage
+                previewImage &&
+                (formData.coverImageType === 'ai' ||
+                    formData.coverImageType === 'upload')
             ) {
                 console.log(
-                    'AI 표지 URL 업데이트 요청:',
+                    '표지 URL 업데이트 요청:',
                     createdId,
                     previewImage,
                 );
-                await axios.post(
-                    '/api/books/updateBookCoverUrl',
-                    {
-                        bookId: createdId,
-                        coverImageUrl: previewImage,
-                    },
-                );
+                await axios.post('/api/books/updateBookCoverUrl', {
+                    bookId: createdId,
+                    coverImageUrl: previewImage,
+                });
             }
 
             setSuccess('도서가 성공적으로 등록되었습니다!');
