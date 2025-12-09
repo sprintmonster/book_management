@@ -50,7 +50,7 @@ public class Book {
 
     // book.user_user_id -> user.user_id
     @ManyToOne
-    @JoinColumn(name = "users_user_id")   // ★ FK 이름 맞춰 수정
+    @JoinColumn(name = "users_user_id", nullable = true)   // ★ FK 이름 맞춰 수정
     private User user;
 
     // book : comment = 1 : N

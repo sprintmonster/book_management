@@ -5,8 +5,10 @@ import com.kt_miniproject.demo.dto.book.BookResponse;
 import com.kt_miniproject.demo.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -19,12 +21,23 @@ public class BookController {
     private final BookService bookService;
 
     // 1. 도서 등록 (Create)
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BookResponse> createBook(
-            @RequestBody BookCreateRequest request) {
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam(value = "coverImage", required = false) MultipartFile coverImage,
+            @RequestParam(value = "coverImageUrl", required = false) String coverImageUrl,
+            @RequestParam(value = "userId", required = false) Long userId
+    ) {
+        String finalCoverImageUrl = coverImageUrl;
+        BookCreateRequest request = new BookCreateRequest();
+        request.setTitle(title);
+        request.setContent(content);
+        request.setCoverImageUrl(finalCoverImageUrl);
+        request.setUserId(userId);
 
         BookResponse response = bookService.createBook(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     // 2. 도서 목록 조회 + 제목 검색 (Read List)

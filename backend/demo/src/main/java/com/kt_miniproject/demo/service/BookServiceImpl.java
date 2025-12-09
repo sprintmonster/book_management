@@ -32,14 +32,20 @@ public class BookServiceImpl implements BookService {
     private final RestTemplate restTemplate;
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/images/generations";
 
+
+
+
     /**
      * 도서 등록 (쓰기 → 별도 트랜잭션)
      */
     @Override
     @Transactional
     public BookResponse createBook(BookCreateRequest request) {
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = null;
+        if (request.getUserId() != null) {
+            user = userRepository.findById(request.getUserId())
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found. id=" + request.getUserId()));
+        }
         Book book = Book.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
