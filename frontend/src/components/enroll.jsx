@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    Container, Box, Typography, TextField, Button, Paper,
-    RadioGroup, FormControlLabel, Radio, FormControl, FormLabel,
-    Alert, CircularProgress, Card, CardMedia
+    Container,
+    Box,
+    Typography,
+    TextField,
+    Button,
+    Paper,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    FormControl,
+    FormLabel,
+    Alert,
+    CircularProgress,
+    Card,
+    CardMedia,
 } from '@mui/material';
 import {
     CloudUpload as CloudUploadIcon,
     AutoAwesome as AutoAwesomeIcon,
-    Save as SaveIcon
+    Save as SaveIcon,
 } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
@@ -99,7 +111,7 @@ function Enroll() {
                         n: 1,
                         size: '512x512',
                     }),
-                }
+                },
             );
 
             if (!response.ok) {
@@ -175,17 +187,40 @@ function Enroll() {
         setSuccess('');
 
         try {
+            // 0) 로그인한 사용자 정보에서 userId 가져오기 (localStorage 예시)
+            const storedUser = localStorage.getItem('user');
+            let userId = null;
+
+            if (storedUser) {
+                try {
+                    const user = JSON.parse(storedUser);
+                    userId = user.id ?? user.userId ?? null;
+                } catch (e) {
+                    console.error('user 정보 파싱 오류:', e);
+                }
+            }
+
+            if (!userId) {
+                setError(
+                    '로그인 정보(userId)를 찾을 수 없습니다. 다시 로그인 후 시도해주세요.',
+                );
+                setLoading(false);
+                return;
+            }
+
             // 1) 기본 도서 정보 JSON으로 등록
             const payload = {
                 title: formData.title,
                 content: formData.content,
-                userId: userId, 
+                userId: userId,
             };
 
             console.log('신규 도서 생성 요청 데이터(JSON):', payload);
 
-            const createRes = await axios.post('/api/books', payload);
-            // 생성된 도서 id 추출 (백엔드 응답 형식에 따라 조정)
+            const createRes = await axios.post(
+                'http://localhost:8080/api/books',
+                payload,
+            );
             const created = createRes.data?.data || createRes.data || {};
             const createdId = created.id;
 
@@ -206,10 +241,13 @@ function Enroll() {
                     createdId,
                     previewImage,
                 );
-                await axios.post('/api/books/updateBookCoverUrl', {
-                    bookId: createdId,
-                    coverImageUrl: previewImage,
-                });
+                await axios.post(
+                    'http://localhost:8080/api/books/updateBookCoverUrl',
+                    {
+                        bookId: createdId,
+                        coverImageUrl: previewImage,
+                    },
+                );
             }
 
             setSuccess('도서가 성공적으로 등록되었습니다!');
@@ -413,8 +451,7 @@ function Enroll() {
                                         표지 미리보기
                                     </Typography>
 
-                                    {formData.coverImageType ===
-                                        'ai' && (
+                                    {formData.coverImageType === 'ai' && (
                                         <Box
                                             sx={{
                                                 display: 'flex',
@@ -474,9 +511,7 @@ function Enroll() {
                                     variant="outlined"
                                     size="large"
                                     fullWidth
-                                    onClick={() =>
-                                        navigate('/MainPage')
-                                    }
+                                    onClick={() => navigate('/MainPage')}
                                     disabled={loading}
                                 >
                                     취소
