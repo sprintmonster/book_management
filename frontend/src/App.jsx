@@ -87,7 +87,7 @@ function App() {
                     <Route path="/books/create" element={<BookCreatePage />} />
                     <Route path="/books/:id/edit" element={<BookEditPage />} />
                     <Route path="/books/:id" element={<InfoPage />} />
-                    <Route path="/enroll" element={<Enroll />} />
+                    {/*<Route path="/enroll" element={<Enroll />} />*/}
 
 
                 </Routes>

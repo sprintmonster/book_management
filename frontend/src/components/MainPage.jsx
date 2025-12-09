@@ -226,13 +226,11 @@ function MainPage() {
                         recommendedBooks.map((book) => (
                             <Box key={book.id} sx={{ mb: 2 }}>
                                 {/* BookCard: 책 카드 UI 컴포넌트 */}
-                                <BookCard
-                                    if = {book.id}
-                                    title={book.title}
-                                    content={book.content}
-                                    imageUrl={book.coverImageUrl || book.aiCoverUrl}
-                                    views={book.viewCount}
-                                />
+                                id={book.id}             // ← id 전달
+                                title={book.title}
+                                content={book.content}
+                                imageUrl={book.imageUrl}
+                                views={book.views}
                             </Box>
                         ))
                     )}
