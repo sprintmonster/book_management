@@ -3,6 +3,7 @@ package com.kt_miniproject.demo.controller;
 import com.kt_miniproject.demo.dto.book.BookCreateRequest;
 import com.kt_miniproject.demo.dto.book.BookResponse;
 import com.kt_miniproject.demo.service.BookService;
+import com.kt_miniproject.demo.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import java.util.Map;
 public class BookController {
 
     private final BookService bookService;
+    private final FileStorageService fileStorageService;
 
     // 1. 도서 등록 (Create)
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -30,6 +32,9 @@ public class BookController {
             @RequestParam(value = "userId", required = false) Long userId
     ) {
         String finalCoverImageUrl = coverImageUrl;
+        if (coverImage != null && !coverImage.isEmpty()) {
+            finalCoverImageUrl = fileStorageService.store(coverImage);
+        }
         BookCreateRequest request = new BookCreateRequest();
         request.setTitle(title);
         request.setContent(content);
