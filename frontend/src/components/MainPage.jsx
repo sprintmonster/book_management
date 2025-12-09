@@ -53,7 +53,7 @@ function MainPage() {
     // 로그아웃 기능
     const handleLogout = async () => {
         try {
-            await axios.post('/api/auth/logout'); // 로그아웃 API 요청
+            await axios.post('http://localhost:8080/api/auth/logout'); // 로그아웃 API 요청
         } catch (e) {
             console.error('로그아웃 실패:', e);
         } finally {
@@ -103,6 +103,10 @@ function MainPage() {
         navigate('/enroll'); // 등록 페이지로 이동
     };
 
+   // ✅ 책 카드 클릭 시 상세 페이지로 이동
+    const handleBookClick = (id) => {
+        navigate(`/infoPage/${id}`);
+    };
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ backgroundColor: "#F3FDE9", minHeight: '100vh', pb: 5 }}>
@@ -225,17 +229,20 @@ function MainPage() {
                     ) : (
                         recommendedBooks.map((book) => (
                             <Box key={book.id} sx={{ mb: 2 }}>
-                                {/* BookCard: 책 카드 UI 컴포넌트 */}
-                                id={book.id}             // ← id 전달
-                                title={book.title}
-                                content={book.content}
-                                imageUrl={book.imageUrl}
-                                views={book.views}
+                                <BookCard
+                                    id={book.id}
+                                    title={book.title}
+                                    content={book.content}
+                                    imageUrl={book.imageUrl}
+                                    views={book.views}
+                                    book={book}
+                                    onClick={() => handleBookClick(book.id)}
+                                />
                             </Box>
                         ))
                     )}
                 </Paper>
-
+    
                 {/* 일반 게시글 목록 */}
                 <Typography variant="h5" sx={{ mb: 2 }}>게시글</Typography>
                 <Paper sx={{ bgcolor: '#D9D9D9', p: 3 }} elevation={0}>
@@ -252,10 +259,12 @@ function MainPage() {
                                     content={book.content}
                                     imageUrl={book.coverImageUrl || book.aiCoverUrl}
                                     views={book.viewCount}
-                                    book={book} // 필요 시 상세 기능에서 사용 가능
+                                    book={book}
+                                    onClick={() => handleBookClick(book.id)}
                                 />
                             </Box>
                         ))
+
                     )}
                 </Paper>
             </Container>

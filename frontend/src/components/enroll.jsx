@@ -81,7 +81,7 @@ function Enroll() {
     setError('');
 
     try {
-      const response = await axios.post('/api/common/generate-cover', {
+      const response = await axios.post('http://localhost:8080/api/common/generate-cover', {
         prompt: aiPrompt
       });
 
@@ -137,7 +137,7 @@ function Enroll() {
         formDataToSend.append('aiCoverUrl', previewImage);
       }
 
-      const response = await axios.post('/api/books', formDataToSend, {
+      const response = await axios.post('http://localhost:8080/api/books', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
