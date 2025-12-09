@@ -1,26 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    Container,
-    Box,
-    Typography,
-    TextField,
-    Button,
-    Paper,
-    RadioGroup,
-    FormControlLabel,
-    Radio,
-    FormControl,
-    FormLabel,
-    Alert,
-    CircularProgress,
-    Card,
-    CardMedia,
+    Container, Box, Typography, TextField, Button, Paper,
+    RadioGroup, FormControlLabel, Radio, FormControl, FormLabel,
+    Alert, CircularProgress, Card, CardMedia
 } from '@mui/material';
 import {
     CloudUpload as CloudUploadIcon,
     AutoAwesome as AutoAwesomeIcon,
-    Save as SaveIcon,
+    Save as SaveIcon
 } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
@@ -111,7 +99,7 @@ function Enroll() {
                         n: 1,
                         size: '512x512',
                     }),
-                },
+                }
             );
 
             if (!response.ok) {
@@ -187,68 +175,46 @@ function Enroll() {
         setSuccess('');
 
         try {
-            // 0) 로그인한 사용자 정보에서 userId 가져오기 (localStorage 예시)
-            const storedUser = localStorage.getItem('user');
-            let userId = null;
-
-            if (storedUser) {
-                try {
-                    const user = JSON.parse(storedUser);
-                    userId = user.id ?? user.userId ?? null;
-                } catch (e) {
-                    console.error('user 정보 파싱 오류:', e);
-                }
-            }
+            // 🔹 0) localStorage에서 userId 읽기 (LoginPage에서 저장한 키 그대로)
+            console.log('localStorage 전체:', { ...localStorage }); // 디버깅용
+            const userId = localStorage.getItem('userId');
+            console.log('읽어온 userId =', userId, '타입 =', typeof userId);
 
             if (!userId) {
-                setError(
-                    '로그인 정보(userId)를 찾을 수 없습니다. 다시 로그인 후 시도해주세요.',
-                );
+                setError('로그인 정보(userId)를 찾을 수 없습니다. 다시 로그인 후 시도해주세요.');
                 setLoading(false);
                 return;
             }
 
-            // 1) 기본 도서 정보 JSON으로 등록
-            const payload = {
+            // 🔹 1) 서버에 보낼 FormData 구성
+            const formDataToSend = new FormData();
+            formDataToSend.append('title', formData.title);
+            formDataToSend.append('content', formData.content);
+            formDataToSend.append('userId', userId);   // ★ 작성자 ID 추가
+
+            if (formData.coverImageType === 'upload' && uploadedImage) {
+                // 업로드한 파일은 coverImage로 전송 → 백엔드가 저장 후 coverImageUrl 세팅
+                formDataToSend.append('coverImage', uploadedImage);
+            } else if (formData.coverImageType === 'ai' && previewImage) {
+                // AI 이미지 URL을 그대로 coverImageUrl 필드에 담아서 전송
+                formDataToSend.append('coverImageUrl', previewImage);
+            }
+
+            console.log('전송 데이터 미리보기:', {
                 title: formData.title,
                 content: formData.content,
-                userId: userId,
-            };
+                coverType: formData.coverImageType,
+                userId,
+                coverImageUrl:
+                    formData.coverImageType === 'ai'
+                        ? previewImage
+                        : '(업로드 파일 사용)',
+            });
 
-            console.log('신규 도서 생성 요청 데이터(JSON):', payload);
-
-            const createRes = await axios.post(
+            const response = await axios.post(
                 'http://localhost:8080/api/books',
-                payload,
+                formDataToSend
             );
-            const created = createRes.data?.data || createRes.data || {};
-            const createdId = created.id;
-
-            if (!createdId) {
-                throw new Error(
-                    '도서 ID를 가져오지 못했습니다. 백엔드 응답 형식을 확인해주세요.',
-                );
-            }
-
-            // 2) 표지 이미지가 있는 경우(AI/업로드 공통) URL을 별도 엔드포인트로 저장
-            if (
-                previewImage &&
-                (formData.coverImageType === 'ai' ||
-                    formData.coverImageType === 'upload')
-            ) {
-                console.log(
-                    '표지 URL 업데이트 요청:',
-                    createdId,
-                    previewImage,
-                );
-                await axios.post(
-                    'http://localhost:8080/api/books/{createdId}/cover-url',
-                    {
-                        bookId: createdId,
-                        coverImageUrl: previewImage,
-                    },
-                );
-            }
 
             setSuccess('도서가 성공적으로 등록되었습니다!');
             setTimeout(() => navigate('/MainPage'), 1500);
@@ -256,13 +222,14 @@ function Enroll() {
             console.error('도서 등록 오류:', err);
             setError(
                 err.response?.data?.message ||
-                    err.message ||
-                    '도서 등록 중 오류가 발생했습니다.',
+                err.message ||
+                '도서 등록 중 오류가 발생했습니다.',
             );
         } finally {
             setLoading(false);
         }
     };
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -451,36 +418,37 @@ function Enroll() {
                                         표지 미리보기
                                     </Typography>
 
-                                    {formData.coverImageType === 'ai' && (
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                gap: 1,
-                                                mt: 1,
-                                            }}
-                                        >
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                fullWidth
-                                                onClick={
-                                                    handleConfirmAiImage
-                                                }
+                                    {formData.coverImageType ===
+                                        'ai' && (
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    gap: 1,
+                                                    mt: 1,
+                                                }}
                                             >
-                                                이 이미지 사용하기
-                                            </Button>
-                                            <Button
-                                                variant="outlined"
-                                                color="secondary"
-                                                fullWidth
-                                                onClick={
-                                                    handleRegenerateAiImage
-                                                }
-                                            >
-                                                이미지 재생성
-                                            </Button>
-                                        </Box>
-                                    )}
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    fullWidth
+                                                    onClick={
+                                                        handleConfirmAiImage
+                                                    }
+                                                >
+                                                    이 이미지 사용하기
+                                                </Button>
+                                                <Button
+                                                    variant="outlined"
+                                                    color="secondary"
+                                                    fullWidth
+                                                    onClick={
+                                                        handleRegenerateAiImage
+                                                    }
+                                                >
+                                                    이미지 재생성
+                                                </Button>
+                                            </Box>
+                                        )}
                                 </Card>
                             )}
 
@@ -511,7 +479,9 @@ function Enroll() {
                                     variant="outlined"
                                     size="large"
                                     fullWidth
-                                    onClick={() => navigate('/MainPage')}
+                                    onClick={() =>
+                                        navigate('/MainPage')
+                                    }
                                     disabled={loading}
                                 >
                                     취소
