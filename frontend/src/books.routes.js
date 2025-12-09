@@ -25,7 +25,7 @@ function sendServerError(res, error) {
 	});
 }
 
-router.post('/api/v1/books', (req, res) => {
+router.post('/api/books', (req, res) => {
 	try {
 		const loginUser = getLoginUser(req);
 		if (!loginUser) {
@@ -64,7 +64,7 @@ router.post('/api/v1/books', (req, res) => {
 });
 
 
-router.patch('/api/v1/books/:bookId', (req, res) => {
+router.patch('/api/books/:bookId', (req, res) => {
 	try {
 		const loginUser = getLoginUser(req);
 		if (!loginUser) {
@@ -115,7 +115,7 @@ router.patch('/api/v1/books/:bookId', (req, res) => {
 });
 
 
-router.delete('/api/v1/books/:bookId', (req, res) => {
+router.delete('/api/books/:bookId', (req, res) => {
 	try {
 		const loginUser = getLoginUser(req);
 		if (!loginUser) {

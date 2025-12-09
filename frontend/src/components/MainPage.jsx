@@ -103,6 +103,10 @@ function MainPage() {
         navigate('/enroll'); // 등록 페이지로 이동
     };
 
+   // ✅ 책 카드 클릭 시 상세 페이지로 이동
+    const handleBookClick = (id) => {
+        navigate(`/infoPage/${id}`);
+    };
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ backgroundColor: "#F3FDE9", minHeight: '100vh', pb: 5 }}>
@@ -225,17 +229,20 @@ function MainPage() {
                     ) : (
                         recommendedBooks.map((book) => (
                             <Box key={book.id} sx={{ mb: 2 }}>
-                                {/* BookCard: 책 카드 UI 컴포넌트 */}
-                                id={book.id}             // ← id 전달
-                                title={book.title}
-                                content={book.content}
-                                imageUrl={book.imageUrl}
-                                views={book.views}
+                                <BookCard
+                                    id={book.id}
+                                    title={book.title}
+                                    content={book.content}
+                                    imageUrl={book.imageUrl}
+                                    views={book.views}
+                                    book={book}
+                                    onClick={() => handleBookClick(book.id)}  {/* ✅ 클릭 시 상세페이지 */}
+                                />
                             </Box>
                         ))
                     )}
                 </Paper>
-
+    
                 {/* 일반 게시글 목록 */}
                 <Typography variant="h5" sx={{ mb: 2 }}>게시글</Typography>
                 <Paper sx={{ bgcolor: '#D9D9D9', p: 3 }} elevation={0}>
@@ -252,10 +259,12 @@ function MainPage() {
                                     content={book.content}
                                     imageUrl={book.coverImageUrl || book.aiCoverUrl}
                                     views={book.viewCount}
-                                    book={book} // 필요 시 상세 기능에서 사용 가능
+                                    book={book}
+                                    onClick={() => handleBookClick(book.id)}   {/* ✅ 게시글 클릭 → 상세 */}
                                 />
                             </Box>
                         ))
+
                     )}
                 </Paper>
             </Container>
