@@ -74,7 +74,7 @@ function App() {
                     <Route path="/MainPage" element={<MainPage />} />
 
                     {/*상세조회 - 성빈*/}
-                    <Route path="/infoPage" element={<InfoPage />} />
+                    <Route path="/infoPage/:id" element={<InfoPage />} />
 
 
                     {/*  /!* 테스트용 직접 링크 *!/*/}
@@ -84,9 +84,9 @@ function App() {
                     {/*상세정보보기*/}
                     {/*<Route path="/books/:id/info" element={<InfoPage />} />*/}
                     {/*<Route path="/" element={<Navigate to="/books/create" replace />} />*/}
-                    <Route path="/books/create" element={<BookCreatePage />} />
-                    <Route path="/books/:id/edit" element={<BookEditPage />} />
-                    <Route path="/books/:id" element={<InfoPage />} />
+                    {/*<Route path="/books/create" element={<BookCreatePage />} />*/}
+                    {/*<Route path="/books/:id/edit" element={<BookEditPage />} />*/}
+                    {/*<Route path="/books/:id" element={<InfoPage />} />*/}
                     {/*<Route path="/enroll" element={<Enroll />} />*/}
 
 

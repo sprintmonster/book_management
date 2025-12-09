@@ -53,7 +53,7 @@ function MainPage() {
     // 로그아웃 기능
     const handleLogout = async () => {
         try {
-            await axios.post('/api/auth/logout'); // 로그아웃 API 요청
+            await axios.post('http://localhost:8080/api/auth/logout'); // 로그아웃 API 요청
         } catch (e) {
             console.error('로그아웃 실패:', e);
         } finally {

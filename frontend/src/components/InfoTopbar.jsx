@@ -9,7 +9,8 @@ import Button from "@mui/material/Button";
 
 export default function TopBar() {
     const navigate = useNavigate();
-    const { id: bookId } = useParams();  
+    const { id } = useParams();
+    const bookId = id;
     const token = localStorage.getItem("accessToken");
 
     /* ---------------------- 글 삭제 ---------------------- */
