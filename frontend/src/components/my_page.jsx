@@ -74,7 +74,7 @@ function MyPage() {
                 const userId = localStorage.getItem('userId'); // 로그인 시 저장된 ID 사용
                 if (!userId) return;
 
-                const response = await axios.get(`/api/v1/users/${userId}`);
+                const response = await axios.get(`/api/users/${userId}`);
                 if (response.data.status === 'success') {
                     const data = response.data.data;
                     setUserInfo(prev => ({
