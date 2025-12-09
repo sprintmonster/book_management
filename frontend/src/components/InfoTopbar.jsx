@@ -40,7 +40,7 @@ export default function TopBar() {
 
             // 204 성공 → 목록 페이지로 이동
             alert("삭제가 완료되었습니다.");
-            navigate("/books");
+            navigate("/MainPage");
 
         } catch (err) {
             console.error(err);
@@ -49,13 +49,21 @@ export default function TopBar() {
     };
 
     return (
-        <AppBar position="static">
+        <AppBar position="static"
+                elevation={0}
+                sx={{
+                    bgcolor: '#D8E8B0',   // ⬅ 색상 변경 (구분감 있는 연녹 톤)
+                    color: 'black',
+                    height: '90px',       // ⬅ 상단바 높이 증가
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}>
             <Toolbar sx={{ position: "relative" }}>
                 {/* 왼쪽: 뒤로가기 버튼 */}
                 <IconButton
                     edge="start"
                     color="inherit"
-                    onClick={() => navigate('/books')}
+                    onClick={() => navigate('/MainPage')}
                 >
                     <ArrowBackIcon />
                 </IconButton>
@@ -77,16 +85,33 @@ export default function TopBar() {
                 {/* 오른쪽: 글수정 버튼 + 글삭제 버튼 */}
                 <Button
                     color="inherit"
-                    sx={{ ml: "auto",mr:1 }}
+                    variant="contained"
+                    sx={{ ml: "auto",mr:1,
+                        bgcolor: '#A1C50A',
+                        color: 'white',
+                        borderRadius: 0,
+                        px: 3,
+                        boxShadow: 'none',
+                        '&:hover': { bgcolor: '#5a6f04' },
+                }}
                     onClick={() => navigate(`/books/${bookId}/edit`)}
                 >
-                    글수정
+                    글  수정
                 </Button>
                 <Button
                     color="inherit"
+                    variant="contained"
+                    sx={{
+                        bgcolor: '#A1C50A',
+                        color: 'white',
+                        borderRadius: 0,
+                        px: 3,
+                        boxShadow: 'none',
+                        '&:hover': { bgcolor: '#5a6f04' },
+                    }}
                     onClick={handleDelete}
                 >
-                    글삭제
+                    글 삭제
                 </Button>
             </Toolbar>
         </AppBar>

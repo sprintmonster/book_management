@@ -4,6 +4,7 @@ import { Card, CardMedia, Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 function BookCard({
+                      id,          // ← 추가: 글 번호
                       imageUrl,
                       title,
                       views,
@@ -13,6 +14,7 @@ function BookCard({
 
 
     // 가짜 데이터(임시) 기본값
+    const bookid = id || 1;
     const displayTitle = title || '글 제목';
     const displayViews = views ?? 0;
     const displayContent =
@@ -26,7 +28,7 @@ function BookCard({
     // 제목 클릭 시 /books/:id/info 로 이동
     // 제목 클릭 시 infoPage.jsx로 이동 (고정 경로)
     const handleTitleClick = () => {
-        navigate('/books/1/info');   // App.jsx에서 InfoPage가 매핑된 경로와 맞춰 줄 것
+        navigate(`/books/${bookid}`);     // ← /books/:id 형태로 이동   // App.jsx에서 InfoPage가 매핑된 경로와 맞춰 줄 것
     };
 
     return (
