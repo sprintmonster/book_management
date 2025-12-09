@@ -6,7 +6,7 @@ const fetchBooks = async (keyword) => {
 	}
 
 	try {
-		const response = await axios.get('/api/v1/books/search', {
+		const response = await axios.get('/api/books/search', {
 			params: { keyword },
 		});
 
