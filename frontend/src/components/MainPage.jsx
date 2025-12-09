@@ -236,7 +236,7 @@ function MainPage() {
                                     imageUrl={book.imageUrl}
                                     views={book.views}
                                     book={book}
-                                    onClick={() => handleBookClick(book.id)}  {/* ✅ 클릭 시 상세페이지 */}
+                                    onClick={() => handleBookClick(book.id)}
                                 />
                             </Box>
                         ))
@@ -260,7 +260,7 @@ function MainPage() {
                                     imageUrl={book.coverImageUrl || book.aiCoverUrl}
                                     views={book.viewCount}
                                     book={book}
-                                    onClick={() => handleBookClick(book.id)}   {/* ✅ 게시글 클릭 → 상세 */}
+                                    onClick={() => handleBookClick(book.id)}
                                 />
                             </Box>
                         ))

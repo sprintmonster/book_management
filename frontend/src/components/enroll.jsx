@@ -121,8 +121,16 @@ function Enroll() {
         }
         setAiImageConfirmed(true);
         setError('');
-        setSuccess('이 AI 이미지를 표지로 사용합니다. 도서 등록을 진행해주세요.');
+        setSuccess('이 AI 이미지를 사용합니다. 도서 등록을 진행해주세요.');
     };
+
+    const handleRegenerateAiImage = async () => {
+        setAiImageConfirmed(false);
+        setSuccess('');
+        setError('');
+        await handleGenerateAI(); 
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -143,7 +151,7 @@ function Enroll() {
                 return;
             }
             if (!aiImageConfirmed) {
-                setError('생성된 AI 표지를 사용할지 선택해주세요. "이 이미지 표지로 사용하기" 버튼을 눌러주세요.');
+                setError('생성된 AI 표지를 사용할지 선택해주세요. "이 이미지 사용하기" 버튼을 눌러주세요.');
                 return;
             }
         }
@@ -252,7 +260,7 @@ function Enroll() {
                                         <input
                                             type="file"
                                             hidden
-                                            accept="image/*'
+                                            accept="image/*"
                                             onChange={handleImageUpload}
                                         />
                                     </Button>
@@ -317,18 +325,15 @@ function Enroll() {
                                                 fullWidth
                                                 onClick={handleConfirmAiImage}
                                             >
-                                                이 이미지 표지로 사용하기
+                                                이 이미지 사용하기
                                             </Button>
                                             <Button
                                                 variant="outlined"
                                                 color="secondary"
                                                 fullWidth
-                                                onClick={() => {
-                                                    setAiImageConfirmed(false);
-                                                    setSuccess('프롬프트를 수정한 뒤 다시 AI 표지 생성을 눌러주세요.');
-                                                }}
+                                                onClick={handleRegenerateAiImage}
                                             >
-                                                다른 이미지 원해요
+                                                이미지 재생성
                                             </Button>
                                         </Box>
                                     )}
