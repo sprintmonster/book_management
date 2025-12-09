@@ -37,7 +37,7 @@ function FindAccount() {
             return;
         }
         try {
-            const response = await axios.get("/api/v1/users/modify", { params: { name } });
+            const response = await axios.get("/api/users/modify", { params: { name } });
 
             if (response.data.status === 'success') {
                 setResult({ type: "account", email: response.data.data.email });

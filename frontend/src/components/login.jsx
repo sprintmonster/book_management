@@ -42,7 +42,7 @@ function LoginPage() {
 
         setLoading(true);
         try {
-            const response = await axios.post('/api/v1/users/login', {
+            const response = await axios.post('/api/users/login', {
                 email: form.email,
                 password: form.password
             });

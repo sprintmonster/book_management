@@ -358,7 +358,7 @@ function Revision() {
               variant="outlined"
               size="large"
               fullWidth
-              onClick={() => navigate(`/books/${id}`)}
+              onClick={() => navigate(-1)}
               disabled={loading}
             >
               취소
