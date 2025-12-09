@@ -64,7 +64,7 @@ function Revision() {
         setFetchLoading(true);
         try {
             const response = await axios.get(
-              `http://localhost:8080/api/books/${id}`
+                `http://localhost:8080/api/books/${id}`,
             );
 
             if (response.data.success && response.data.data) {
@@ -244,37 +244,56 @@ function Revision() {
         setSuccess('');
 
         try {
-            // 1) 제목/내용을 JSON으로 수정
+            // 0) 로그인한 사용자 정보에서 userId 가져오기
+            const storedUser = localStorage.getItem('user');
+            let userId = null;
+
+            if (storedUser) {
+                try {
+                    const user = JSON.parse(storedUser);
+                    userId = user.id ?? user.userId ?? null;
+                } catch (e) {
+                    console.error('user 정보 파싱 오류:', e);
+                }
+            }
+
+            if (!userId) {
+                setError(
+                    '로그인 정보(userId)를 찾을 수 없습니다. 다시 로그인 후 시도해주세요.',
+                );
+                setLoading(false);
+                return;
+            }
+
+            // 1) 최종 coverImageUrl 결정
+            let coverImageUrl = null;
+            if (formData.coverImageType === 'existing') {
+                coverImageUrl = existingImage;
+            } else if (
+                previewImage &&
+                (formData.coverImageType === 'upload' ||
+                    formData.coverImageType === 'ai')
+            ) {
+                coverImageUrl = previewImage;
+            }
+
+            // 2) 제목/내용/표지/userId 를 JSON으로 수정
             const payload = {
                 title: formData.title,
                 content: formData.content,
+                coverImageUrl: coverImageUrl,
                 userId: userId,
             };
 
             const response = await axios.put(
-              `http://localhost:8080/api/books/${id}`,
-              payload
+                `http://localhost:8080/api/books/${id}`,
+                payload,
             );
 
             if (!response.data?.success) {
                 throw new Error(
                     response.data?.message ||
                         '도서 수정에 실패했습니다.',
-                );
-            }
-
-            // 2) 표지 이미지가 있는 경우(AI/업로드 공통) URL을 별도 엔드포인트로 업데이트
-            if (
-                previewImage &&
-                (formData.coverImageType === 'ai' ||
-                    formData.coverImageType === 'upload')
-            ) {
-                await axios.post(
-                  'http://localhost:8080/api/books/updateBookCoverUrl',
-                  {
-                    bookId: id,
-                    coverImageUrl: previewImage,
-                  }
                 );
             }
 

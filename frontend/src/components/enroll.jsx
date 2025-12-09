@@ -242,7 +242,7 @@ function Enroll() {
                     previewImage,
                 );
                 await axios.post(
-                    'http://localhost:8080/api/books/updateBookCoverUrl',
+                    'http://localhost:8080/api/books/{createdId}/cover-url',
                     {
                         bookId: createdId,
                         coverImageUrl: previewImage,
