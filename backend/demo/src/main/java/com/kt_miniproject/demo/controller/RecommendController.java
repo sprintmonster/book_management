@@ -6,14 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/recommend")
+@RequestMapping("/api/books")
 @RequiredArgsConstructor
 public class RecommendController {
 
     private final RecommendService recommendService;
 
     // 도서 추천
-    @PostMapping("/book/{bookId}")
+    @PostMapping("/{bookId}/like")
     public ResponseEntity<String> recommendBook(
             @PathVariable Long bookId,
             @RequestParam Long userId
@@ -23,7 +23,7 @@ public class RecommendController {
     }
 
     // 댓글 추천
-    @PostMapping("/comment/{commentId}")
+    @PostMapping("/{bookId}/comments/{commentId}/like")
     public ResponseEntity<String> recommendComment(
             @PathVariable Long commentId,
             @RequestParam Long userId
