@@ -45,18 +45,18 @@ function RegisterPage() {
 
         setLoading(true);
         try {
-            const response = await axios.post('/api/users', {
+            const response = await axios.post('http://localhost:8080/api/users', {
                 email: form.email,
                 password: form.password,
                 name: form.name,
                 role: form.role,
-                api_key: form.apiKey
+                apiKey: form.apiKey
             });
 
-            if (response.data.status === 'success') {
-                alert('회원가입 성공!');
-                navigate('/login'); // 성공 시 로그인 페이지로 이동
-            }
+            // if (response.data.status === 'success') {
+            //     alert('회원가입 성공!');
+            //     navigate('/login'); // 성공 시 로그인 페이지로 이동
+            // }
         } catch (err) {
             const message = err.response?.data?.message || '서버 오류가 발생했습니다.';
             alert(`회원가입 실패: ${message}`);
