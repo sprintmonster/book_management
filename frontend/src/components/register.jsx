@@ -44,7 +44,7 @@ function RegisterPage() {
         }
 
         setLoading(true);
-        try {c
+        try {
             const response = await axios.post('/api/users', {
                 email: form.email,
                 password: form.password,

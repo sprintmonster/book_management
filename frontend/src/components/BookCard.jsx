@@ -1,17 +1,16 @@
-// src/components/BookCard.jsx
 import React from 'react';
 import { Card, CardMedia, Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 function BookCard({
-                      id,          // ← 추가: 글 번호
-                      imageUrl,
-                      title,
-                      views,
-                      content,
-                  }) {
+    id,         
+    imageUrl,
+    title,
+    views,
+    content,
+    onClick,    
+}) {
     const navigate = useNavigate();
-
 
     // 가짜 데이터(임시) 기본값
     const bookid = id || 1;
@@ -25,20 +24,29 @@ function BookCard({
         imageUrl ||
         'https://via.placeholder.com/160x160?text=%EC%9D%B4%EB%AF%B8%EC%A7%80';
 
-    // 제목 클릭 시 /books/:id/info 로 이동
-    // 제목 클릭 시 infoPage.jsx로 이동 (고정 경로)
-    const handleTitleClick = () => {
-        navigate(`/books/${bookid}`);     // ← /books/:id 형태로 이동   // App.jsx에서 InfoPage가 매핑된 경로와 맞춰 줄 것
+    const handleCardClick = () => {
+        if (onClick) {
+            onClick();
+        } else {
+            navigate(`/infoPage/${bookid}`);
+        }
+    };
+
+    const handleTitleClick = (event) => {
+        event.stopPropagation();
+        handleCardClick();
     };
 
     return (
         <Card
+            onClick={handleCardClick}
             sx={{
                 display: 'flex',
                 alignItems: 'stretch',
                 p: 3,
                 boxShadow: 'none',
                 bgcolor: '#ffffff',
+                cursor: 'pointer',
             }}
         >
             {/* 왼쪽: 이미지 영역 */}
@@ -58,35 +66,48 @@ function BookCard({
                     sx={{
                         width: 160,
                         height: 160,
+                        borderRadius: 2,
                         objectFit: 'cover',
-                        borderRadius: 0,
                     }}
                 />
             </Box>
 
-            {/* 오른쪽: 제목 / 조회수 / 내용 */}
-            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        mb: 1.5,
-                    }}
-                >
-                    <Typography
-                        variant="h6"
-                        sx={{ fontWeight: 'bold', cursor: 'pointer' }}
-                        onClick={handleTitleClick}
+            {/* 오른쪽: 텍스트 영역 */}
+            <Box
+                sx={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                }}
+            >
+                <Box sx={{ mb: 1 }}>
+                    {/* 제목 + 조회수 */}
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'baseline',
+                            justifyContent: 'space-between',
+                            mb: 1,
+                        }}
                     >
-                        {displayTitle}
-                    </Typography>
-                    <Typography variant="body2">조회수 : {displayViews}</Typography>
-                </Box>
+                        <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 'bold', cursor: 'pointer' }}
+                            onClick={handleTitleClick}
+                        >
+                            {displayTitle}
+                        </Typography>
+                        <Typography variant="body2">
+                            조회수 : {displayViews}
+                        </Typography>
+                    </Box>
 
-                {/* 내용 */}
-                <Typography variant="body2" sx={{ lineHeight: 1.6 }}>
-                    {displayContent}
-                </Typography>
+                    {/* 내용 */}
+                    <Typography variant="body2" sx={{ lineHeight: 1.6 }}>
+                        {displayContent}
+                    </Typography>
+                </Box>
             </Box>
         </Card>
     );

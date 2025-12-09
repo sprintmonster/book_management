@@ -62,11 +62,11 @@ function FindAccount() {
             return;
         }
         try {
-            const response = await axios.get("/api/users/modify/find_password", { params: { name, email } });
-            if (response.status === 200) {
-                // 백엔드 반환: "비밀번호는: 1234"
-                setResult({ type: "password", message: response.data });
-                setError('');
+            const response = await axios.get("/api/v1/users/modify", { params: { name, email } });
+
+            if (response.data.status === 'success') {
+                setResult({ type: "password", password: response.data.data.password });
+                setError("");
             } else {
                 setError("비밀번호를 찾을 수 없습니다.");
                 setResult(null);
