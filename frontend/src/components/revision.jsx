@@ -63,7 +63,7 @@ function Revision() {
     const fetchBookDetails = async () => {
         setFetchLoading(true);
         try {
-            const response = await axios.get(`/api/books/${id}`);
+            const response = await axios.get(`http://localhost:8080/api/books/${id}`);
 
             if (response.data.success && response.data.data) {
                 const book = response.data.data;

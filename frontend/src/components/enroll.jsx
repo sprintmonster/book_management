@@ -182,7 +182,7 @@ function Enroll() {
                     : '(업로드 파일 사용)',
             });
 
-            const response = await axios.post('/api/books', formDataToSend, {
+            const response = await axios.post('http://localhost:8080/api/books', formDataToSend, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
