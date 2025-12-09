@@ -175,41 +175,30 @@ function Enroll() {
         setSuccess('');
 
         try {
-            // 1) 기본 도서 정보 JSON으로 등록
-            const payload = {
+            const formDataToSend = new FormData();
+            formDataToSend.append('title', formData.title);
+            formDataToSend.append('content', formData.content);
+
+            if (formData.coverImageType === 'upload' && uploadedImage) {
+                // 업로드한 파일은 coverImage로 전송 → 백엔드가 저장 후 coverImageUrl 세팅
+                formDataToSend.append('coverImage', uploadedImage);
+            } else if (formData.coverImageType === 'ai' && previewImage) {
+                // AI 이미지 URL을 그대로 coverImageUrl 필드에 담아서 전송
+                formDataToSend.append('coverImageUrl', previewImage);
+            }
+
+            console.log('전송 데이터 :', {
                 title: formData.title,
                 content: formData.content,
-            };
+                coverType: formData.coverImageType,
+                coverImageUrl: formData.coverImageType === 'ai'
+                    ? previewImage
+                    : '(업로드 파일 사용)',
+            });
 
-            console.log('신규 도서 생성 요청 데이터(JSON):', payload);
+            const response = await axios.post('http://localhost:8080/api/books', formDataToSend, {
 
-            const createRes = await axios.post('http://localhost:8080/api/books', payload);
-            // 생성된 도서 id 추출 (백엔드 응답 형식에 따라 조정)
-            const created = createRes.data?.data || createRes.data || {};
-            const createdId = created.id;
-
-            if (!createdId) {
-                throw new Error(
-                    '도서 ID를 가져오지 못했습니다. 백엔드 응답 형식을 확인해주세요.',
-                );
-            }
-
-            // 2) 표지 이미지가 있는 경우(AI/업로드 공통) URL을 별도 엔드포인트로 저장
-            if (
-                previewImage &&
-                (formData.coverImageType === 'ai' ||
-                    formData.coverImageType === 'upload')
-            ) {
-                console.log(
-                    '표지 URL 업데이트 요청:',
-                    createdId,
-                    previewImage,
-                );
-                await axios.post('http://localhost:8080/api/books/updateBookCoverUrl', {
-                    bookId: createdId,
-                    coverImageUrl: previewImage,
-                });
-            }
+            });
 
             setSuccess('도서가 성공적으로 등록되었습니다!');
             setTimeout(() => navigate('/MainPage'), 1500);
