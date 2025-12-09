@@ -29,7 +29,7 @@ public class BookController {
             @RequestParam("content") String content,
             @RequestParam(value = "coverImage", required = false) MultipartFile coverImage,
             @RequestParam(value = "coverImageUrl", required = false) String coverImageUrl,
-            @RequestParam(value = "userId", required = false) Long userId
+            @RequestParam(value = "userId") Long userId
     ) {
         String finalCoverImageUrl = coverImageUrl;
         if (coverImage != null && !coverImage.isEmpty()) {
