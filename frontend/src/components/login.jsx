@@ -42,22 +42,29 @@ function LoginPage() {
 
         setLoading(true);
         try {
-            const response = await axios.post('/api/v1/users/login', {
+            const response = await axios.post('http://localhost:8080/api/users/login', { // url localhost:8080까지 적기
                 email: form.email,
                 password: form.password
             });
+            const user = response.data; // 이건 백엔드쪽에서 return이 하나라서 해당형식으로 넣어놨습니다.
 
-            if (response.data.status === 'success') {
-                // 성공 시 토큰 저장 (localStorage 예시)
-                const { accessToken, refreshToken, userId, name } = response.data.data;
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
-                localStorage.setItem('userName', name);
-                localStorage.setItem('userId', userId);
+            // if (response.data.status === 'success') {  << 해당 부분이 있으니 로그인은 작동하나 다음으로 넘어가지 않음
 
-                alert('로그인 성공!');
-                navigate('/MainPage'); // 로그인 성공 시 이동
-            }
+            // 입력 데이터 맞추기 위한 임시 주석
+            // 성공 시 토큰 저장 (localStorage 예시)
+            // const { accessToken, refreshToken, userId, name } = response.data.data;
+            // localStorage.setItem('accessToken', accessToken);
+            // localStorage.setItem('refreshToken', refreshToken);
+            // localStorage.setItem('userName', name);
+            // localStorage.setItem('userId', userId);
+
+            localStorage.setItem("userId", user.id);
+            localStorage.setItem("userEmail", user.email);
+            localStorage.setItem("userName", user.name);
+
+            alert('로그인 성공!');
+            navigate('/MainPage'); // 로그인 성공 시 이동
+        // }
         } catch (err) {
             const message = err.response?.data?.message || '서버 오류가 발생했습니다.';
             alert(`로그인 실패: ${message}`);
