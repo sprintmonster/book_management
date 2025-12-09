@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/books")   // 전체 prefix
@@ -59,8 +60,32 @@ public class BookController {
     // 5. 도서 삭제 (Delete)
     // DELETE /api/books/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-        bookService.deleteBook(id);
+    public ResponseEntity<Void> deleteBook(@PathVariable("id") Long id,
+                                           @RequestParam("userId") Long userId) {
+        bookService.deleteBook(id,userId);
         return ResponseEntity.noContent().build();   // 204 응답
+    }
+
+
+    // BookController.java
+
+    @PutMapping("/{id}/cover-image")
+    public ResponseEntity<BookResponse> updateBookCoverUrl(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> requests) { // json형태로 url 입력
+        String imageUrl = requests.get("ImageUrl");
+        if (imageUrl == null || imageUrl.isBlank()) {
+            throw new IllegalArgumentException("이미지 URL 값이 없습니다.");
+        }
+
+        BookResponse response = bookService.updateBookCoverUrl(id, imageUrl);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}/generate-image")
+    public ResponseEntity<String> generateAiImageUrl(
+            @PathVariable Long id) {
+        String bookUrl = bookService.generateAiImageUrl(id);
+        return ResponseEntity.ok(bookUrl);
     }
 }

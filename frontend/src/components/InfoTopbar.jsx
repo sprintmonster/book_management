@@ -9,7 +9,8 @@ import Button from "@mui/material/Button";
 
 export default function TopBar() {
     const navigate = useNavigate();
-    const { id: bookId } = useParams();  
+    const { id } = useParams();
+    const bookId = id;
     const token = localStorage.getItem("accessToken");
 
     /* ---------------------- 글 삭제 ---------------------- */
@@ -17,7 +18,7 @@ export default function TopBar() {
         if (!window.confirm("정말 삭제하시겠습니까?")) return;
 
         try {
-            const response = await fetch(`/api/books/${bookId}`, {
+            const response = await fetch(`http://localhost:8080/api/books/${bookId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

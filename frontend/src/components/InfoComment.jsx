@@ -21,7 +21,7 @@ export default function InfoComment({bookId,comments:initialComments}) {
             return;
         }
         try {
-            const response = await fetch(`/api/books/${bookId}/comments`, {
+            const response = await fetch(`http://localhost:8080/api/books/${bookId}/comments`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ export default function InfoComment({bookId,comments:initialComments}) {
         try {
             // delta가 1이면 추천, -1이면 비추천
             const response = await fetch(
-                `/api/books/${bookId}/comments/${commentId}/like`,
+                `http://localhost:8080/api/books/${bookId}/comments/${commentId}/like`,
                 {
                     method: "POST",
                     headers: {
@@ -124,7 +124,7 @@ export default function InfoComment({bookId,comments:initialComments}) {
         try {
 
             const response = await fetch(
-                `/api/books/${bookId}/comments/${commentId}`,
+                `http://localhost:8080/api/books/${bookId}/comments/${commentId}`,
                 {
                     method: "DELETE",
                     headers: {

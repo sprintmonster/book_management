@@ -19,7 +19,7 @@ export default function InfoDetail() {
 
     const fetchBookDetail = async () => {
         try {
-            const res = await fetch(`/api/books/${bookId}`);
+            const res = await fetch(`http://localhost:8080/api/books/${bookId}`);
             const data = await res.json();
 
             setBook(data);
@@ -37,7 +37,7 @@ export default function InfoDetail() {
 
         try {
             const res = await fetch(
-                `/api/books/${bookId}/like`,
+                `http://localhost:8080/api/books/${bookId}/like`,
                 {
                     method: "POST",
                     headers: {
