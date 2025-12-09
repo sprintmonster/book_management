@@ -1,4 +1,3 @@
-// src/components/revision.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -46,8 +45,9 @@ function Revision() {
     const [existingImage, setExistingImage] = useState(null);
     const [uploadedImage, setUploadedImage] = useState(null);
     const [aiPrompt, setAiPrompt] = useState('');
-    const [previewImage, setPreviewImage] = useState(null);
-    const [aiImageConfirmed, setAiImageConfirmed] = useState(false); // AI 이미지 사용 여부
+    const [apiKey, setApiKey] = useState('');
+    const [previewImage, setPreviewImage] = useState(null); // 기존/업로드/AI 공통 미리보기
+    const [aiImageConfirmed, setAiImageConfirmed] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [fetchLoading, setFetchLoading] = useState(true);
@@ -63,7 +63,7 @@ function Revision() {
     const fetchBookDetails = async () => {
         setFetchLoading(true);
         try {
-            const response = await axios.get(`/api/books/${id}`);
+            const response = await axios.get(`http://localhost:8080/api/books/${id}`);
 
             if (response.data.success && response.data.data) {
                 const book = response.data.data;
@@ -132,10 +132,10 @@ function Revision() {
         }
     };
 
-    // 테스트용 AI 표지 생성
+    // OpenAI를 프론트에서 직접 호출하여 AI 표지 생성
     const handleGenerateAI = async () => {
-        if (!aiPrompt.trim()) {
-            setError('AI 표지 생성을 위한 프롬프트를 입력해주세요.');
+        if (!aiPrompt.trim() || !apiKey.trim()) {
+            setError('API Key와 프롬프트를 모두 입력해주세요.');
             return;
         }
 
@@ -145,15 +145,41 @@ function Revision() {
         setAiImageConfirmed(false);
 
         try {
-            // 실제 OpenAI 대신, 랜덤 이미지 URL 사용
-            await new Promise((resolve) => setTimeout(resolve, 800));
-            const fakeUrl = `https://picsum.photos/512/512?random=${Date.now()}`;
+            const response = await fetch(
+                'https://api.openai.com/v1/images/generations',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${apiKey}`, // 키 노출 허용 전제
+                    },
+                    body: JSON.stringify({
+                        prompt: aiPrompt,
+                        n: 1,
+                        size: '512x512',
+                    }),
+                },
+            );
 
-            setPreviewImage(fakeUrl);
-            setSuccess('🔍 (테스트용) AI 표지가 생성된 것처럼 동작합니다.');
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(
+                    errData.error?.message || 'AI 표지 생성 실패',
+                );
+            }
+
+            const data = await response.json();
+            const url = data.data[0].url;
+
+            setPreviewImage(url);
+            setSuccess(
+                'AI 표지가 생성되었습니다. 이미지를 사용하거나 다시 생성할 수 있습니다.',
+            );
         } catch (err) {
-            console.error('AI 표지 생성 오류(테스트):', err);
-            setError('테스트용 AI 표지 생성 중 오류가 발생했습니다.');
+            console.error('AI 표지 생성 오류:', err);
+            setError(
+                err.message || 'AI 표지 생성 중 오류가 발생했습니다.',
+            );
         } finally {
             setAiGenerating(false);
         }
@@ -167,7 +193,9 @@ function Revision() {
         }
         setAiImageConfirmed(true);
         setError('');
-        setSuccess('이 AI 이미지를 표지로 사용합니다. 도서 수정을 진행해주세요.');
+        setSuccess(
+            '이 AI 이미지를 표지로 사용합니다. 도서 수정을 진행해주세요.',
+        );
     };
 
     // 같은 프롬프트로 이미지 재생성
@@ -196,9 +224,17 @@ function Revision() {
             return;
         }
 
-        if (formData.coverImageType === 'ai' && !previewImage) {
-            setError('AI 표지를 생성해주세요.');
-            return;
+        if (formData.coverImageType === 'ai') {
+            if (!previewImage) {
+                setError('AI 표지를 생성해주세요.');
+                return;
+            }
+            if (!aiImageConfirmed) {
+                setError(
+                    '생성된 AI 표지를 사용할지 선택해주세요. "이 이미지 사용하기" 버튼을 눌러주세요.',
+                );
+                return;
+            }
         }
 
         setLoading(true);
@@ -206,43 +242,51 @@ function Revision() {
         setSuccess('');
 
         try {
-            const formDataToSend = new FormData();
-            formDataToSend.append('title', formData.title);
-            formDataToSend.append('content', formData.content);
+            // 1) 제목/내용을 JSON으로 수정
+            const payload = {
+                title: formData.title,
+                content: formData.content,
+            };
 
-            if (formData.coverImageType === 'upload' && uploadedImage) {
-                // 새 파일 업로드
-                formDataToSend.append('coverImage', uploadedImage);
-            } else if (formData.coverImageType === 'ai' && previewImage) {
-                // AI 이미지 URL → coverImageUrl로 보내기 (Enroll이랑 통일)
-                formDataToSend.append('coverImageUrl', previewImage);
+            const response = await axios.put(
+                `/api/books/${id}`,
+                payload,
+            );
+
+            if (!response.data?.success) {
+                throw new Error(
+                    response.data?.message ||
+                        '도서 수정에 실패했습니다.',
+                );
             }
-            // coverImageType === 'existing' 이면 이미지 필드 안 보냄 → 서버가 기존 이미지 유지
 
-            const response = await axios.put(`/api/books/${id}`, formDataToSend, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            if (response.data.success) {
-                setSuccess('도서가 성공적으로 수정되었습니다!');
-                setTimeout(() => {
-                    // 상세 페이지 라우트에 맞게 이동
-                    navigate(`/infoPage/${id}`);
-                }, 1500);
+            // 2) 표지 이미지가 있는 경우(AI/업로드 공통) URL을 별도 엔드포인트로 업데이트
+            if (
+                previewImage &&
+                (formData.coverImageType === 'ai' ||
+                    formData.coverImageType === 'upload')
+            ) {
+                await axios.post('/api/books/updateBookCoverUrl', {
+                    bookId: id,
+                    coverImageUrl: previewImage,
+                });
             }
+
+            setSuccess('도서가 성공적으로 수정되었습니다!');
+            setTimeout(() => {
+                navigate(`/infoPage/${id}`);
+            }, 1500);
         } catch (err) {
             console.error('도서 수정 오류:', err);
             setError(
                 err.response?.data?.message ||
-                '도서 수정 중 오류가 발생했습니다.'
+                    err.message ||
+                    '도서 수정 중 오류가 발생했습니다.',
             );
         } finally {
             setLoading(false);
         }
     };
-
 
     if (fetchLoading) {
         return (
@@ -383,6 +427,16 @@ function Revision() {
                                 <Box sx={{ mt: 2 }}>
                                     <TextField
                                         fullWidth
+                                        label="OpenAI API Key"
+                                        type="password"
+                                        value={apiKey}
+                                        onChange={(e) =>
+                                            setApiKey(e.target.value)
+                                        }
+                                        margin="normal"
+                                    />
+                                    <TextField
+                                        fullWidth
                                         label="AI 표지 생성 프롬프트"
                                         value={aiPrompt}
                                         onChange={(e) =>
@@ -402,7 +456,9 @@ function Revision() {
                                         }
                                         onClick={handleGenerateAI}
                                         disabled={
-                                            aiGenerating || !aiPrompt.trim()
+                                            aiGenerating ||
+                                            !aiPrompt.trim() ||
+                                            !apiKey.trim()
                                         }
                                         fullWidth
                                         sx={{ mt: 1 }}
@@ -519,4 +575,5 @@ function Revision() {
         </ThemeProvider>
     );
 }
+
 export default Revision;
