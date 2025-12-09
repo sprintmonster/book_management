@@ -54,14 +54,14 @@ public class UserController {
     }
 
     // 3. 아이디 찾기 (GET) - 쿼리 파라미터 사용 (?name=홍길동)
-    @GetMapping("/modify/find_email")
+    @GetMapping("/modify")
     public ResponseEntity<Object> findEmail(@RequestParam String name) {
         List<String> email = userService.findEmail(name);
         return ResponseEntity.ok("찾으시는 이메일: " + email);
     }
 
     // 4. 비밀번호 찾기 (GET) - (?email=a@a.com&name=홍길동)
-    @GetMapping("/modify/find_password")
+    @GetMapping("/modify")
     public ResponseEntity<String> findPassword(@RequestParam String email, @RequestParam String name) {
         String password = userService.findPassword(email, name);
         return ResponseEntity.ok("비밀번호는: " + password);
