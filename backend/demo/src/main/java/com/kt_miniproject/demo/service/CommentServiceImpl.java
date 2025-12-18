@@ -62,12 +62,32 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found"));
 
-        // 작성자만 삭제 가능
+        // 작성자 본인 확인
         if (!comment.getUser().getId().equals(userId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "댓글을 삭제할 권한이 없습니다");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "본인의 댓글만 삭제할 수 있습니다.");
         }
 
         commentRepository.delete(comment);
+    }
+
+    @Override
+    @Transactional
+    public int likeComment(Long commentId, boolean isUpvote) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found"));
+
+        // null 방지
+        int currentRecommend = (comment.getRecommend() == null) ? 0 : comment.getRecommend();
+
+        if (isUpvote) {
+            currentRecommend++;
+        } else {
+            currentRecommend--;
+        }
+
+        comment.setRecommend(currentRecommend); // DB 업데이트 (Dirty Checking)
+
+        return currentRecommend; // 변경된 숫자 반환
     }
 
     @Override

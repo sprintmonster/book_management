@@ -35,15 +35,23 @@ public class CommentController {
         List<CommentResponse> comments = commentService.getCommentsByBook(bookId);
         return ResponseEntity.ok(comments);
     }
+    // 댓글 추천
+    @PostMapping("/{commentId}/like")
+    public ResponseEntity<Integer> likeComment(
+            @PathVariable Long commentId,
+            @RequestParam("isUpvote") boolean isUpvote // true: 추천, false: 비추천
+    ) {
+        int updatedCount = commentService.likeComment(commentId, isUpvote);
+        return ResponseEntity.ok(updatedCount); // 변경된 숫자 반환
+    }
 
     // 댓글 삭제
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteComment(
-            @PathVariable("bookId") Long bookId,
-            @PathVariable("commentId") Long commentId,
-            @RequestParam("userId") Long userId
+    public ResponseEntity<String> deleteComment(
+            @PathVariable Long commentId,
+            @RequestParam("userId") Long userId // 프론트에서 보내준 userId 받기
     ) {
         commentService.deleteComment(commentId, userId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("댓글이 삭제되었습니다.");
     }
 }

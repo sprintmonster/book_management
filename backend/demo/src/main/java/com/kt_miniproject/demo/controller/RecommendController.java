@@ -6,27 +6,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/recommend")
+@RequestMapping("/api/books")
 @RequiredArgsConstructor
 public class RecommendController {
 
     private final RecommendService recommendService;
 
     // 도서 추천
-    @PostMapping("/book/{bookId}")
+    @PostMapping("/{bookId}/recommend")
     public ResponseEntity<String> recommendBook(
-            @PathVariable Long bookId,
-            @RequestParam Long userId
+            @PathVariable("bookId") Long bookId,
+            @RequestParam("userId") Long userId
     ) {
         recommendService.recommendBook(bookId, userId);
         return ResponseEntity.ok("도서 추천 완료");
     }
 
     // 댓글 추천
-    @PostMapping("/comment/{commentId}")
+    @PostMapping("/{bookId}/comments/{commentId}/recommend")
     public ResponseEntity<String> recommendComment(
-            @PathVariable Long commentId,
-            @RequestParam Long userId
+            @PathVariable("commentId") Long commentId,
+            @RequestParam("userId") Long userId
     ) {
         recommendService.recommendComment(commentId, userId);
         return ResponseEntity.ok("댓글 추천 완료");

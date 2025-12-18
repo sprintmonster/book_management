@@ -23,10 +23,10 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)   //  기본은 전체 조회 트랜잭션
+@Transactional(readOnly = true) // 기본은 전체 조회 트랜잭션
 public class BookServiceImpl implements BookService {
 
-    //AutoWired 대신 RequiredArgsConstructor로 의존성 주입
+    // AutoWired 대신 RequiredArgsConstructor로 의존성 주입
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
     private final RestTemplate restTemplate;
@@ -38,8 +38,11 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookResponse createBook(BookCreateRequest request) {
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = null;
+        if (request.getUserId() != null) {
+            user = userRepository.findById(request.getUserId())
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found. id=" + request.getUserId()));
+        }
         Book book = Book.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
@@ -71,9 +74,7 @@ public class BookServiceImpl implements BookService {
     public BookResponse getBookById(Long id) {
 
         Book book = bookRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Book not found. id=" + id)
-                );
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found. id=" + id));
 
         return new BookResponse(book);
     }
@@ -82,13 +83,11 @@ public class BookServiceImpl implements BookService {
      * 수정 (쓰기 트랜잭션 + Dirty Checking)
      */
     @Override
-    @Transactional  //  변경 감지를 위한 트랜잭션
+    @Transactional // 변경 감지를 위한 트랜잭션
     public BookResponse updateBook(Long id, BookCreateRequest request) {
 
         Book book = bookRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Book not found. id=" + id)
-                );
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found. id=" + id));
 
         // Dirty Checking이 자동 update 수행
         book.setTitle(request.getTitle());
@@ -103,7 +102,7 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     @Transactional
-    public void deleteBook(Long id,Long userId) {
+    public void deleteBook(Long id, Long userId) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
         // 작성자만 삭제 가능 하게 하는거
@@ -134,8 +133,8 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public BookResponse updateBookCoverUrl(Long id, String imageUrl) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Book not found. id=" + id)); //  illegalArgument에서 직접 처리한 예외로 변경
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found. id=" + id)); // illegalArgument에서 직접
+                                                                                               // 처리한 예외로 변경
         book.setCoverImageUrl(imageUrl);
 
         // 변경감지(dirty checking)로 자동 update
@@ -165,8 +164,7 @@ public class BookServiceImpl implements BookService {
         // "제목이 ~이고, 내용이 ~인 책의 표지를 그려줘"
         String prompt = String.format(
                 "A high-quality book cover illustration for a book titled '%s'. The story is about: %s",
-                title, summary
-        );
+                title, summary);
 
         // 4. 헤더 설정 (인증)
         HttpHeaders headers = new HttpHeaders();
@@ -177,7 +175,7 @@ public class BookServiceImpl implements BookService {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", "dall-e-3");
         requestBody.put("prompt", prompt);
-        requestBody.put("n", 1);           // 1장 생성
+        requestBody.put("n", 1); // 1장 생성
         requestBody.put("size", "1024x1024");
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
@@ -207,4 +205,36 @@ public class BookServiceImpl implements BookService {
         }
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<BookResponse> getBooksByUserId(Long userId) {
+        return bookRepository.findByUserId(userId)
+                .stream()
+                .map(BookResponse::new)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public int likeBook(Long id, boolean isUpvote) {
+        // 1. 책 조회
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found. id=" + id));
+
+        // 2. 현재 추천 수 가져오기 (null이면 0으로 처리)
+        int currentRecommend = (book.getRecommend() == null) ? 0 : book.getRecommend();
+
+        // 3. 더하기 또는 빼기
+        if (isUpvote) {
+            currentRecommend++;
+        } else {
+            currentRecommend--;
+        }
+
+        // 4. DB 업데이트 (Dirty Checking으로 자동 저장됨)
+        book.setRecommend(currentRecommend);
+
+        // 5. ★ [핵심] 변경된 숫자를 컨트롤러에게 돌려줌
+        return currentRecommend;
+    }
 }

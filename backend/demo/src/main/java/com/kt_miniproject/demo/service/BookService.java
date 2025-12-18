@@ -25,7 +25,16 @@ public interface BookService {
     // 제목 검색
     List<BookResponse> searchBooks(String title);
 
+    // 표지 URL 수정
     BookResponse updateBookCoverUrl(Long id, String imageUrl);
 
+    // AI 이미지 URL 생성
     String generateAiImageUrl(Long id);
+
+    // 사용자별 도서 조회
+    // 사용자별 도서 조회
+    List<BookResponse> getBooksByUserId(Long userId);
+
+    // 좋아요(추천) 증가
+    int likeBook(Long id, boolean isUpvote);
 }

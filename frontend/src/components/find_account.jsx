@@ -1,8 +1,8 @@
 // src/pages/FindAccount.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Paper, Alert, Tabs, Tab, AppBar, Toolbar } from '@mui/material';
 import axios from 'axios';
-import { useNavigate, useSearchParams } from 'react-router-dom'; // URL 쿼리 사용
+import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../assets/logo.png";
 
@@ -15,36 +15,35 @@ const theme = createTheme({
 
 function FindAccount() {
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams(); // URL 쿼리 연동
-    const initialTab = searchParams.get('tab') === 'password' ? 1 : 0; // URL에서 초기 탭 값 결정
-    const [tabIndex, setTabIndex] = useState(initialTab); // 0: 계정 찾기, 1: 비밀번호 찾기
+
+    const [tabIndex, setTabIndex] = useState(0); // 0: 계정 찾기, 1: 비밀번호 찾기
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [result, setResult] = useState(null);
     const [error, setError] = useState('');
 
-    // 탭 변경 시 상태와 URL 쿼리 연동
     const handleTabChange = (event, newValue) => {
         setTabIndex(newValue);
         setResult(null);
         setError('');
         setName('');
         setEmail('');
-        setSearchParams({ tab: newValue === 0 ? 'account' : 'password' }); // URL에 반영
     };
 
-    // ----- 계정 찾기 API 호출 -----
+    // ----- 수정: API 엔드포인트 변경 -----
     const handleFindAccount = async () => {
-        if (!name.trim()) {
+        if (!name) {
             setError("이름을 입력하세요.");
             return;
         }
         try {
-            const response = await axios.get("/api/users/modify/find_email", { params: { name } });
-            if (response.status === 200) {
-                // 백엔드 반환: "찾으시는 이메일: [a@a.com]"
-                setResult({ type: "account", message: response.data });
-                setError('');
+            // 기존: /api/users/modify → 수정: /api/users/modify/find_email
+            const response = await axios.get("http://localhost:8080/api/users/modify/find_email", { params: { name } });
+
+            // 수정: 응답 구조 변경
+            if (response.status === 200) { // response.data.message 체크 대신 status 확인
+                setResult({ type: "account", email: response.data }); // 서버에서 "찾으시는 이메일: ..." 반환
+                setError("");
             } else {
                 setError("이메일을 찾을 수 없습니다.");
                 setResult(null);
@@ -55,17 +54,18 @@ function FindAccount() {
         }
     };
 
-    // ----- 비밀번호 찾기 API 호출 -----
+    // ----- 수정: 비밀번호 찾기 API 엔드포인트 변경 -----
     const handleFindPassword = async () => {
-        if (!name.trim() || !email.trim()) {
+        if (!name || !email) {
             setError("이름과 이메일을 모두 입력하세요.");
             return;
         }
         try {
-            const response = await axios.get("/api/v1/users/modify", { params: { name, email } });
+            // 기존: /api/v1/users/modify → 수정: /api/users/modify/find_password
+            const response = await axios.get("http://localhost:8080/api/users/modify/find_password", { params: { name, email } });
 
-            if (response.data.status === 'success') {
-                setResult({ type: "password", password: response.data.data.password });
+            if (response.status === 200) { // 서버가 문자열 반환
+                setResult({ type: "password", password: response.data }); // "비밀번호는: ..." 반환
                 setError("");
             } else {
                 setError("비밀번호를 찾을 수 없습니다.");
@@ -76,6 +76,7 @@ function FindAccount() {
             setResult(null);
         }
     };
+    // ----------------------------------------
 
     return (
         <ThemeProvider theme={theme}>
@@ -133,7 +134,7 @@ function FindAccount() {
                                 fullWidth
                                 sx={{ mt: 2, padding: 1, backgroundColor:"#AED581", color: "#1A1A1A",
                                     '&:hover': { backgroundColor:  "#C5E1A5" } }}
-                                onClick={handleFindAccount}
+                                onClick={handleFindAccount} // 수정: 새로운 API 호출
                             >
                                 계정(이메일) 찾기
                             </Button>
@@ -143,15 +144,21 @@ function FindAccount() {
                                 fullWidth
                                 sx={{ mt: 2, padding: 1, backgroundColor:"#AED581", color: "#1A1A1A",
                                     '&:hover': { backgroundColor:  "#C5E1A5" } }}
-                                onClick={handleFindPassword}
+                                onClick={handleFindPassword} // 수정: 새로운 API 호출
                             >
                                 비밀번호 찾기
                             </Button>
                         )}
 
-                        {result && (
-                            <Alert severity={result.type === "account" ? "success" : "info"} sx={{ mt: 2 }}>
-                                {result.message}
+                        {result?.type === "account" && (
+                            <Alert severity="success" sx={{ mt: 2 }}>
+                                {result.email}
+                            </Alert>
+                        )}
+
+                        {result?.type === "password" && (
+                            <Alert severity="info" sx={{ mt: 2 }}>
+                                {result.password}
                             </Alert>
                         )}
 
