@@ -1,0 +1,30 @@
+Index: .idea/shelf/25__12__8___3_24__________.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/25__12__8___3_24__________.xml b/.idea/shelf/25__12__8___3_24__________.xml
+deleted file mode 100644
+--- a/.idea/shelf/25__12__8___3_24__________.xml	(revision 1b0035c1ee75152103bb331ff8ce0a3ded3b54f9)
++++ /dev/null	(revision 1b0035c1ee75152103bb331ff8ce0a3ded3b54f9)
+@@ -1,4 +0,0 @@
+-<changelist name="25__12__8__오후_3_24,_병합_전에_커밋되지_않은_변경_내용_[변경]" date="1765175071352" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/25__12__8__오후_3_24,_병합_전에_커밋되지_않은_변경_내용_[변경]/shelved.patch" />
+-  <option name="DESCRIPTION" value="25. 12. 8. 오후 3:24, 병합 전에 커밋되지 않은 변경 내용 [변경]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/25__12__8___3_22__________.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/25__12__8___3_22__________.xml b/.idea/shelf/25__12__8___3_22__________.xml
+deleted file mode 100644
+--- a/.idea/shelf/25__12__8___3_22__________.xml	(revision 1b0035c1ee75152103bb331ff8ce0a3ded3b54f9)
++++ /dev/null	(revision 1b0035c1ee75152103bb331ff8ce0a3ded3b54f9)
+@@ -1,4 +0,0 @@
+-<changelist name="25__12__8__오후_3_22,_병합_전에_커밋되지_않은_변경_내용_[변경]" date="1765174923179" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/25__12__8__오후_3_22,_병합_전에_커밋되지_않은_변경_내용_[변경]/shelved.patch" />
+-  <option name="DESCRIPTION" value="25. 12. 8. 오후 3:22, 병합 전에 커밋되지 않은 변경 내용 [변경]" />
+-</changelist>
+\ No newline at end of file
