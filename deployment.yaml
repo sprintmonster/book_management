@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: book-server
+  template:
+    metadata:
+      labels:
+        app: book-server
+    spec:
+      containers:
+      - name: book-server
+        # 아까 push한 ECR 주소를 여기에 적습니다
+        image: 416225317325.dkr.ecr.ap-northeast-2.amazonaws.com/book_management_server:latest
+        ports:
+        - containerPort: 80

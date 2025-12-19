@@ -1,0 +1,142 @@
+Index: .idea/modules/demo.main.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module external.linked.project.id=\"demo:main\" external.linked.project.path=\"$MODULE_DIR$/../../backend/demo\" external.root.project.path=\"$MODULE_DIR$/../../backend/demo\" external.system.id=\"GRADLE\" external.system.module.group=\"com.kt_miniproject\" external.system.module.type=\"sourceSet\" external.system.module.version=\"0.0.1-SNAPSHOT\" type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" LANGUAGE_LEVEL=\"JDK_17\">\r\n    <output url=\"file://$MODULE_DIR$/../../backend/demo/build/classes/java/main\" />\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$/../../backend/demo/src/main\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/../../backend/demo/src/main/java\" isTestSource=\"false\" />\r\n      <sourceFolder url=\"file://$MODULE_DIR$/../../backend/demo/src/main/resources\" type=\"java-resource\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"temurin-17\" jdkType=\"JavaSDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"library\" scope=\"PROVIDED\" name=\"Gradle: org.projectlombok:lombok:1.18.42\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.boot:spring-boot-starter-data-jpa:3.5.8\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.boot:spring-boot-starter-web:3.5.8\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.boot:spring-boot-starter-jdbc:3.5.8\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.boot:spring-boot-starter:3.5.8\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.hibernate.orm:hibernate-core:6.6.36.Final\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.data:spring-data-jpa:3.5.6\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-aspects:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.boot:spring-boot-starter-json:3.5.8\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.boot:spring-boot-starter-tomcat:3.5.8\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-webmvc:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-web:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-jdbc:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: com.zaxxer:HikariCP:6.3.3\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.boot:spring-boot-autoconfigure:3.5.8\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.boot:spring-boot:3.5.8\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.boot:spring-boot-starter-logging:3.5.8\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: jakarta.annotation:jakarta.annotation-api:2.1.1\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-core:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.yaml:snakeyaml:2.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: jakarta.persistence:jakarta.persistence-api:3.1.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: jakarta.transaction:jakarta.transaction-api:2.0.1\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-orm:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework.data:spring-data-commons:3.5.6\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-context:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-aop:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-tx:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-beans:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.antlr:antlr4-runtime:4.13.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.slf4j:slf4j-api:2.0.17\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.aspectj:aspectjweaver:1.9.25\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.19.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: com.fasterxml.jackson.module:jackson-module-parameter-names:2.19.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.19.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: com.fasterxml.jackson.core:jackson-databind:2.19.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.apache.tomcat.embed:tomcat-embed-websocket:10.1.49\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.apache.tomcat.embed:tomcat-embed-core:10.1.49\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.apache.tomcat.embed:tomcat-embed-el:10.1.49\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-expression:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: io.micrometer:micrometer-observation:1.15.6\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: ch.qos.logback:logback-classic:1.5.21\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.24.3\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.slf4j:jul-to-slf4j:2.0.17\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.springframework:spring-jcl:6.2.14\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: com.fasterxml.jackson.core:jackson-annotations:2.19.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: com.fasterxml.jackson.core:jackson-core:2.19.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: io.micrometer:micrometer-commons:1.15.6\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: ch.qos.logback:logback-core:1.5.21\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"Gradle: org.apache.logging.log4j:log4j-api:2.24.3\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: com.h2database:h2:2.3.232\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: org.jboss.logging:jboss-logging:3.6.1.Final\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: org.hibernate.common:hibernate-commons-annotations:7.0.3.Final\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: io.smallrye:jandex:3.2.0\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: com.fasterxml:classmate:1.7.1\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: net.bytebuddy:byte-buddy:1.17.8\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: org.glassfish.jaxb:jaxb-runtime:4.0.6\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: jakarta.xml.bind:jakarta.xml.bind-api:4.0.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: jakarta.inject:jakarta.inject-api:2.0.1\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: org.glassfish.jaxb:jaxb-core:4.0.6\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: jakarta.activation:jakarta.activation-api:2.1.4\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: org.eclipse.angus:angus-activation:2.0.3\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: org.glassfish.jaxb:txw2:4.0.6\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"RUNTIME\" name=\"Gradle: com.sun.istack:istack-commons-runtime:4.1.2\" level=\"project\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules/demo.main.iml b/.idea/modules/demo.main.iml
+--- a/.idea/modules/demo.main.iml	(revision cf052e0dc04ccbd46997af0da60bfe203f1003d8)
++++ b/.idea/modules/demo.main.iml	(date 1765248045838)
+@@ -7,7 +7,7 @@
+       <sourceFolder url="file://$MODULE_DIR$/../../backend/demo/src/main/java" isTestSource="false" />
+       <sourceFolder url="file://$MODULE_DIR$/../../backend/demo/src/main/resources" type="java-resource" />
+     </content>
+-    <orderEntry type="jdk" jdkName="temurin-17" jdkType="JavaSDK" />
++    <orderEntry type="jdk" jdkName="ms-17" jdkType="JavaSDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.projectlombok:lombok:1.18.42" level="project" />
+     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-jpa:3.5.8" level="project" />
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"36e743d5-6370-4a9d-9808-00ac3fcb5350\" name=\"변경\" comment=\"\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"package.json\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\"><![CDATA[{\n  \"lastFilter\": {\n    \"state\": \"OPEN\",\n    \"assignee\": \"HDYee\"\n  }\n}]]></component>\n  <component name=\"GithubPullRequestsUISettings\"><![CDATA[{\n  \"selectedUrlAndAccountId\": {\n    \"url\": \"https://github.com/sprintmonster/book_management.git\",\n    \"accountId\": \"acd18a2a-e62b-4a93-b570-cdaa7eeccfc5\"\n  }\n}]]></component>\n  <component name=\"ProjectColorInfo\"><![CDATA[{\n  \"associatedIndex\": 6\n}]]></component>\n  <component name=\"ProjectId\" id=\"36YsEUOfYjNAOisKYxAgqxNeGr0\" />\n  <component name=\"ProjectLevelVcsManager\">\n    <ConfirmationsSetting value=\"1\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"Node.js.InfoTopbar.jsx.executor\": \"Run\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1\": \"true\",\n    \"git-widget-placeholder\": \"HDY\",\n    \"junie.onboarding.icon.badge.shown\": \"true\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"npm.dev.executor\": \"Run\",\n    \"to.speed.mode.migration.done\": \"true\",\n    \"ts.external.directory.path\": \"C:\\\\Program Files\\\\JetBrains\\\\WebStorm 2025.2.5\\\\plugins\\\\javascript-plugin\\\\jsLanguageServicesImpl\\\\external\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RunManager\">\n    <configuration name=\"dev\" type=\"js.build_tools.npm\" nameIsGenerated=\"true\">\n      <package-json value=\"$PROJECT_DIR$/frontend/src/package.json\" />\n      <command value=\"run\" />\n      <scripts>\n        <script value=\"dev\" />\n      </scripts>\n      <node-interpreter value=\"project\" />\n      <envs />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-WS-252.28238.10\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"디폴트 작업\">\n      <changelist id=\"36e743d5-6370-4a9d-9808-00ac3fcb5350\" name=\"변경\" comment=\"\" />\n      <created>1765194751713</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1765194751713</updated>\n      <workItem from=\"1765194753302\" duration=\"5066000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n    <option name=\"exactExcludedFiles\">\n      <list>\n        <option value=\"$PROJECT_DIR$/frontend/vite.config.js\" />\n      </list>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision cf052e0dc04ccbd46997af0da60bfe203f1003d8)
++++ b/.idea/workspace.xml	(date 1765248441556)
+@@ -10,6 +10,16 @@
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
++  <component name="ExternalProjectsManager">
++    <system id="GRADLE">
++      <state>
++        <task path="$PROJECT_DIR$/backend/demo">
++          <activation />
++        </task>
++        <projects_view />
++      </state>
++    </system>
++  </component>
+   <component name="FileTemplateManagerImpl">
+     <option name="RECENT_TEMPLATES">
+       <list>
+@@ -18,23 +28,28 @@
+     </option>
+   </component>
+   <component name="Git.Settings">
++    <option name="RECENT_BRANCH_BY_REPOSITORY">
++      <map>
++        <entry key="$PROJECT_DIR$" value="main" />
++      </map>
++    </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+-  "lastFilter": {
+-    "state": "OPEN",
+-    "assignee": "HDYee"
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;,
++    &quot;assignee&quot;: &quot;HDYee&quot;
+   }
+-}]]></component>
+-  <component name="GithubPullRequestsUISettings"><![CDATA[{
+-  "selectedUrlAndAccountId": {
+-    "url": "https://github.com/sprintmonster/book_management.git",
+-    "accountId": "acd18a2a-e62b-4a93-b570-cdaa7eeccfc5"
++}</component>
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;https://github.com/sprintmonster/book_management.git&quot;,
++    &quot;accountId&quot;: &quot;acd18a2a-e62b-4a93-b570-cdaa7eeccfc5&quot;
+   }
+-}]]></component>
+-  <component name="ProjectColorInfo"><![CDATA[{
+-  "associatedIndex": 6
+-}]]></component>
++}</component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 6
++}</component>
+   <component name="ProjectId" id="36YsEUOfYjNAOisKYxAgqxNeGr0" />
+   <component name="ProjectLevelVcsManager">
+     <ConfirmationsSetting value="1" id="Add" />
+@@ -45,12 +60,13 @@
+   </component>
+   <component name="PropertiesComponent"><![CDATA[{
+   "keyToString": {
++    "Gradle./Users/jeonboyun/ma/backend/demo.executor": "Run",
+     "Node.js.InfoTopbar.jsx.executor": "Run",
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+     "RunOnceActivity.git.unshallow": "true",
+     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+-    "git-widget-placeholder": "HDY",
++    "git-widget-placeholder": "main",
+     "junie.onboarding.icon.badge.shown": "true",
+     "node.js.detected.package.eslint": "true",
+     "node.js.selected.package.eslint": "(autodetect)",
+@@ -62,7 +78,27 @@
+     "vue.rearranger.settings.migration": "true"
+   }
+ }]]></component>
+-  <component name="RunManager">
++  <component name="RunManager" selected="Gradle./Users/jeonboyun/ma/backend/demo">
++    <configuration name="/Users/jeonboyun/ma/backend/demo" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
++      <ExternalSystemSettings>
++        <option name="executionName" />
++        <option name="externalProjectPath" value="$PROJECT_DIR$/backend/demo" />
++        <option name="externalSystemIdString" value="GRADLE" />
++        <option name="scriptParameters" value="" />
++        <option name="taskDescriptions">
++          <list />
++        </option>
++        <option name="taskNames">
++          <list />
++        </option>
++        <option name="vmOptions" />
++      </ExternalSystemSettings>
++      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
++      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
++      <DebugAllEnabled>false</DebugAllEnabled>
++      <RunAsTest>false</RunAsTest>
++      <method v="2" />
++    </configuration>
+     <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
+       <package-json value="$PROJECT_DIR$/frontend/src/package.json" />
+       <command value="run" />
+@@ -73,6 +109,9 @@
+       <envs />
+       <method v="2" />
+     </configuration>
++    <list>
++      <item itemvalue="Gradle./Users/jeonboyun/ma/backend/demo" />
++    </list>
+   </component>
+   <component name="SharedIndexes">
+     <attachedChunks>
