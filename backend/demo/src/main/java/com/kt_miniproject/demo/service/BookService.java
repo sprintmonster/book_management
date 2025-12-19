@@ -30,4 +30,11 @@ public interface BookService {
 
     // AI 이미지 URL 생성
     String generateAiImageUrl(Long id);
+
+    // 사용자별 도서 조회
+    // 사용자별 도서 조회
+    List<BookResponse> getBooksByUserId(Long userId);
+
+    // 좋아요(추천) 증가
+    int likeBook(Long id, boolean isUpvote);
 }

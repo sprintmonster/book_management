@@ -42,29 +42,26 @@ function LoginPage() {
 
         setLoading(true);
         try {
-            const response = await axios.post('http://localhost:8080/api/users/login', { // url localhost:8080까지 적기
-                email: form.email,
-                password: form.password
+            const response = await axios.post('/api/users/login', {
+                email: form.email,       // 사용자가 입력한 이메일
+                password: form.password  // 사용자가 입력한 비밀번호
+            }, {
+                withCredentials: true    // 세션 유지 필수 설정
             });
-            const user = response.data; // 이건 백엔드쪽에서 return이 하나라서 해당형식으로 넣어놨습니다.
 
-            // if (response.data.status === 'success') {  << 해당 부분이 있으니 로그인은 작동하나 다음으로 넘어가지 않음
+            if (response.status === 200) {
+                // [중요] 백엔드 응답에서 userId 꺼내기
+                const { id, name } = response.data; // 백엔드가 id로 주는지 userId로 주는지 확인 필요!
 
-            // 입력 데이터 맞추기 위한 임시 주석
-            // 성공 시 토큰 저장 (localStorage 예시)
-            // const { accessToken, refreshToken, userId, name } = response.data.data;
-            // localStorage.setItem('accessToken', accessToken);
-            // localStorage.setItem('refreshToken', refreshToken);
-            // localStorage.setItem('userName', name);
-            // localStorage.setItem('userId', userId);
+                // 1. userId라는 이름으로 명확하게 저장 (가장 추천)
+                localStorage.setItem('userId', id);
 
-            localStorage.setItem("userId", user.id);
-            localStorage.setItem("userEmail", user.email);
-            localStorage.setItem("userName", user.name);
+                // 2. user 객체로도 저장 (선택 사항)
+                localStorage.setItem('user', JSON.stringify({ id, name }));
 
-            alert('로그인 성공!');
-            navigate('/MainPage'); // 로그인 성공 시 이동
-        // }
+                alert('로그인 성공!');
+                navigate('/MainPage');
+            }
         } catch (err) {
             const message = err.response?.data?.message || '서버 오류가 발생했습니다.';
             alert(`로그인 실패: ${message}`);
@@ -146,10 +143,10 @@ function LoginPage() {
                             sx={{
                                 mt: 2,
                                 padding: 1,
-                                backgroundColor:"#AED581",   // 로그인 박스보다 진한 연두
+                                backgroundColor: "#AED581",   // 로그인 박스보다 진한 연두
                                 color: "#1A1A1A",             // 글씨 선명하게
                                 '&:hover': {
-                                    backgroundColor:  "#C5E1A5", // hover 시 조금 더 진하게
+                                    backgroundColor: "#C5E1A5", // hover 시 조금 더 진하게
                                 }
                             }}
                             onClick={handleLogin}

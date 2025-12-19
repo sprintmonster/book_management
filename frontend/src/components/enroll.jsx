@@ -1,17 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    Container, Box, Typography, TextField, Button, Paper,
-    RadioGroup, FormControlLabel, Radio, FormControl, FormLabel,
-    Alert, CircularProgress, Card, CardMedia
+    Container,
+    Box,
+    Typography,
+    TextField,
+    Button,
+    Paper,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    FormControl,
+    FormLabel,
+    Alert,
+    CircularProgress,
+    Card,
+    CardMedia,
 } from '@mui/material';
 import {
     CloudUpload as CloudUploadIcon,
     AutoAwesome as AutoAwesomeIcon,
-    Save as SaveIcon
+    Save as SaveIcon,
 } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import bookService from './bookService';
 
 const theme = createTheme({
     palette: {
@@ -92,14 +105,14 @@ function Enroll() {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Bearer ${apiKey}`, // 키 노출 허용 전제
+                        Authorization: `Bearer ${apiKey}`,
                     },
                     body: JSON.stringify({
                         prompt: aiPrompt,
                         n: 1,
                         size: '512x512',
                     }),
-                }
+                },
             );
 
             if (!response.ok) {
@@ -143,7 +156,7 @@ function Enroll() {
         await handleGenerateAI();
     };
 
-    // 도서 등록 (JSON 바디 + 이미지 URL은 updateBookCoverUrl로 따로 전송)
+    // 도서 등록 (FormData로 한 번에 전송)
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -175,49 +188,32 @@ function Enroll() {
         setSuccess('');
 
         try {
-            // 🔹 0) localStorage에서 userId 읽기 (LoginPage에서 저장한 키 그대로)
-            console.log('localStorage 전체:', { ...localStorage }); // 디버깅용
+            // 1. userId 가져오기
             const userId = localStorage.getItem('userId');
-            console.log('읽어온 userId =', userId, '타입 =', typeof userId);
-
             if (!userId) {
-                setError('로그인 정보(userId)를 찾을 수 없습니다. 다시 로그인 후 시도해주세요.');
+                setError('로그인 정보가 없습니다. 다시 로그인해주세요.');
                 setLoading(false);
                 return;
             }
 
-            // 🔹 1) 서버에 보낼 FormData 구성
+            // 2. FormData 생성
             const formDataToSend = new FormData();
             formDataToSend.append('title', formData.title);
             formDataToSend.append('content', formData.content);
-            formDataToSend.append('userId', userId);   // ★ 작성자 ID 추가
+            formDataToSend.append('userId', userId);
 
             if (formData.coverImageType === 'upload' && uploadedImage) {
-                // 업로드한 파일은 coverImage로 전송 → 백엔드가 저장 후 coverImageUrl 세팅
                 formDataToSend.append('coverImage', uploadedImage);
             } else if (formData.coverImageType === 'ai' && previewImage) {
-                // AI 이미지 URL을 그대로 coverImageUrl 필드에 담아서 전송
-                formDataToSend.append('coverImageUrl', previewImage);
+                formDataToSend.append('aiCoverUrl', previewImage);
             }
 
-            console.log('전송 데이터 미리보기:', {
-                title: formData.title,
-                content: formData.content,
-                coverType: formData.coverImageType,
-                userId,
-                coverImageUrl:
-                    formData.coverImageType === 'ai'
-                        ? previewImage
-                        : '(업로드 파일 사용)',
-            });
-
-            const response = await axios.post(
-                'http://localhost:8080/api/books',
-                formDataToSend
-            );
+            // 4. 백엔드 전송 - bookService 사용
+            await bookService.createBook(formDataToSend);
 
             setSuccess('도서가 성공적으로 등록되었습니다!');
             setTimeout(() => navigate('/MainPage'), 1500);
+
         } catch (err) {
             console.error('도서 등록 오류:', err);
             setError(
@@ -230,16 +226,9 @@ function Enroll() {
         }
     };
 
-
     return (
         <ThemeProvider theme={theme}>
-            <Box
-                sx={{
-                    backgroundColor: '#F3FDE9',
-                    minHeight: '100vh',
-                    pb: 5,
-                }}
-            >
+            <Box sx={{ backgroundColor: '#F3FDE9', minHeight: '100vh', pb: 5 }}>
                 <Container maxWidth="md" sx={{ py: 4 }}>
                     <Paper elevation={3} sx={{ p: 4 }}>
                         <Typography
@@ -262,11 +251,7 @@ function Enroll() {
                             </Alert>
                         )}
 
-                        <Box
-                            component="form"
-                            onSubmit={handleSubmit}
-                            sx={{ mt: 3 }}
-                        >
+                        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
                             <TextField
                                 fullWidth
                                 label="제목"
@@ -288,10 +273,7 @@ function Enroll() {
                                 rows={6}
                             />
 
-                            <FormControl
-                                component="fieldset"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
+                            <FormControl component="fieldset" sx={{ mt: 3, mb: 2 }}>
                                 <FormLabel component="legend">
                                     표지 이미지 선택 방식
                                 </FormLabel>
@@ -331,10 +313,7 @@ function Enroll() {
                                         />
                                     </Button>
                                     {uploadedImage && (
-                                        <Typography
-                                            variant="body2"
-                                            sx={{ mt: 1 }}
-                                        >
+                                        <Typography variant="body2" sx={{ mt: 1 }}>
                                             {uploadedImage.name}
                                         </Typography>
                                     )}
@@ -348,27 +327,21 @@ function Enroll() {
                                         label="OpenAI API Key"
                                         type="password"
                                         value={apiKey}
-                                        onChange={(e) =>
-                                            setApiKey(e.target.value)
-                                        }
+                                        onChange={(e) => setApiKey(e.target.value)}
                                         margin="normal"
                                     />
                                     <TextField
                                         fullWidth
                                         label="AI 표지 프롬프트"
                                         value={aiPrompt}
-                                        onChange={(e) =>
-                                            setAiPrompt(e.target.value)
-                                        }
+                                        onChange={(e) => setAiPrompt(e.target.value)}
                                         margin="normal"
                                     />
                                     <Button
                                         variant="outlined"
                                         startIcon={
                                             aiGenerating ? (
-                                                <CircularProgress
-                                                    size={20}
-                                                />
+                                                <CircularProgress size={20} />
                                             ) : (
                                                 <AutoAwesomeIcon />
                                             )
@@ -390,75 +363,44 @@ function Enroll() {
                             )}
 
                             {previewImage && (
-                                <Card
-                                    sx={{
-                                        mt: 3,
-                                        maxWidth: 400,
-                                        mx: 'auto',
-                                        p: 1,
-                                    }}
-                                >
+                                <Card sx={{ mt: 3, maxWidth: 400, mx: 'auto', p: 1 }}>
                                     <CardMedia
                                         component="img"
                                         image={previewImage}
                                         alt="표지 미리보기"
-                                        sx={{
-                                            height: 300,
-                                            objectFit: 'cover',
-                                        }}
+                                        sx={{ height: 300, objectFit: 'cover' }}
                                     />
                                     <Typography
                                         variant="caption"
-                                        sx={{
-                                            p: 1,
-                                            display: 'block',
-                                            textAlign: 'center',
-                                        }}
+                                        sx={{ p: 1, display: 'block', textAlign: 'center' }}
                                     >
                                         표지 미리보기
                                     </Typography>
 
-                                    {formData.coverImageType ===
-                                        'ai' && (
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    gap: 1,
-                                                    mt: 1,
-                                                }}
+                                    {formData.coverImageType === 'ai' && (
+                                        <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                fullWidth
+                                                onClick={handleConfirmAiImage}
                                             >
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    fullWidth
-                                                    onClick={
-                                                        handleConfirmAiImage
-                                                    }
-                                                >
-                                                    이 이미지 사용하기
-                                                </Button>
-                                                <Button
-                                                    variant="outlined"
-                                                    color="secondary"
-                                                    fullWidth
-                                                    onClick={
-                                                        handleRegenerateAiImage
-                                                    }
-                                                >
-                                                    이미지 재생성
-                                                </Button>
-                                            </Box>
-                                        )}
+                                                이 이미지 사용하기
+                                            </Button>
+                                            <Button
+                                                variant="outlined"
+                                                color="secondary"
+                                                fullWidth
+                                                onClick={handleRegenerateAiImage}
+                                            >
+                                                이미지 재생성
+                                            </Button>
+                                        </Box>
+                                    )}
                                 </Card>
                             )}
 
-                            <Box
-                                sx={{
-                                    mt: 4,
-                                    display: 'flex',
-                                    gap: 2,
-                                }}
-                            >
+                            <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
                                 <Button
                                     type="submit"
                                     variant="contained"
@@ -479,9 +421,7 @@ function Enroll() {
                                     variant="outlined"
                                     size="large"
                                     fullWidth
-                                    onClick={() =>
-                                        navigate('/MainPage')
-                                    }
+                                    onClick={() => navigate('/MainPage')}
                                     disabled={loading}
                                 >
                                     취소

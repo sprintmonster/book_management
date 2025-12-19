@@ -12,6 +12,7 @@ export default function InfoComment({bookId,comments:initialComments}) {
     const [newComment, setNewComment] = useState("");
     const token = localStorage.getItem("accessToken");
     const userId = localStorage.getItem("userId");
+    const userName = localStorage.getItem("userName");
 
 
     /* -------------------- 댓글 추가 -------------------- */
@@ -29,13 +30,14 @@ export default function InfoComment({bookId,comments:initialComments}) {
                 },
                 body: JSON.stringify({
                     userId: Number(userId),
+                    userName: userName,
                     content: newComment,
                 }),
             });
 
             if (!response.ok) {
                 const error = await response.json();
-                alert(error.message);
+                alert(error.message || "댓글 작성 중 오류가 발생했습니다.");
                 return;
             }
 
@@ -45,13 +47,11 @@ export default function InfoComment({bookId,comments:initialComments}) {
             setComments((prev) => [
                 ...prev,
                 {
-                    id: data.commentId,
-                    text: data.content,
-                    author: data.userId,
-                    timestamp: data.createdAt,
-                    //replies: [],
-                    //isReplying: false,
-                    likes: data.recommend,
+                    commentId: data.commentId,
+                    userId: data.userId,
+                    content: data.content,
+                    createdAt: data.createdAt,
+                    recommend: data.recommend ?? 0,
                 },
             ]);
 
@@ -182,7 +182,7 @@ export default function InfoComment({bookId,comments:initialComments}) {
                     >
                         {/* 왼쪽: 작성자 */}
                         <Typography variant="subtitle2" fontWeight="bold">
-                            {node.author}
+                            {node.userName}
                         </Typography>
 
                         {/* 오른쪽: 날짜 + X 버튼 묶음 */}
@@ -192,12 +192,12 @@ export default function InfoComment({bookId,comments:initialComments}) {
                                 color="text.secondary"
                                 sx={{ mr: 1 }}
                             >
-                                {node.timestamp}
+                                {node.createdAt}
                             </Typography>
 
                             <IconButton
                                 size="small"
-                                onClick={() => handleDelete(node.id)}
+                                onClick={() => handleDelete(node.commentid)}
                                 sx={{ color: "grey.600" }}
                             >
                                 <CloseIcon fontSize="small" />
@@ -219,7 +219,7 @@ export default function InfoComment({bookId,comments:initialComments}) {
                         }}
                     >
                         <Typography sx={{ flex: 1, mr: 2 }}>
-                            {node.text}
+                            {node.content}
                         </Typography>
 
                         {/* 오른쪽: 추천/비추천 세트 */}
@@ -233,12 +233,12 @@ export default function InfoComment({bookId,comments:initialComments}) {
                             <IconButton
                                 size="small"
                                 color="primary"
-                                onClick={() => handleLike(node.id, 1)}
+                                onClick={() => handleLike(node.commentid, 1)}
                             >
                                 <ThumbUpIcon fontSize="small" />
                             </IconButton>
                             <Typography variant="caption" sx={{ mx: 0.5 }}>
-                                {node.likes}
+                                {node.recommend}
                             </Typography>
                             <IconButton
                                 size="small"

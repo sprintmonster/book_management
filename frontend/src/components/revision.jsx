@@ -23,6 +23,7 @@ import {
     Save as SaveIcon,
 } from '@mui/icons-material';
 import axios from 'axios';
+import bookService from './bookService';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -63,12 +64,11 @@ function Revision() {
     const fetchBookDetails = async () => {
         setFetchLoading(true);
         try {
-            const response = await axios.get(
-                `http://localhost:8080/api/books/${id}`,
-            );
+            const response = await bookService.getBook(id);
 
-            if (response.data.success && response.data.data) {
-                const book = response.data.data;
+            // Backend returns BookResponse directly
+            const book = response.data;
+            if (book) {
                 setFormData({
                     title: book.title || '',
                     content: book.content || '',
@@ -81,7 +81,7 @@ function Revision() {
             console.error('도서 정보 조회 오류:', err);
             setError(
                 err.response?.data?.message ||
-                    '도서 정보를 불러오는 중 오류가 발생했습니다.',
+                '도서 정보를 불러오는 중 오류가 발생했습니다.',
             );
         } finally {
             setFetchLoading(false);
@@ -245,17 +245,7 @@ function Revision() {
 
         try {
             // 0) 로그인한 사용자 정보에서 userId 가져오기
-            const storedUser = localStorage.getItem('user');
-            let userId = null;
-
-            if (storedUser) {
-                try {
-                    const user = JSON.parse(storedUser);
-                    userId = user.id ?? user.userId ?? null;
-                } catch (e) {
-                    console.error('user 정보 파싱 오류:', e);
-                }
-            }
+            const userId = localStorage.getItem('userId'); // Use userId directly as stored in login
 
             if (!userId) {
                 setError(
@@ -285,17 +275,7 @@ function Revision() {
                 userId: userId,
             };
 
-            const response = await axios.put(
-                `http://localhost:8080/api/books/${id}`,
-                payload,
-            );
-
-            if (!response.data?.success) {
-                throw new Error(
-                    response.data?.message ||
-                        '도서 수정에 실패했습니다.',
-                );
-            }
+            await bookService.updateBook(id, payload);
 
             setSuccess('도서가 성공적으로 수정되었습니다!');
             setTimeout(() => {
@@ -305,8 +285,8 @@ function Revision() {
             console.error('도서 수정 오류:', err);
             setError(
                 err.response?.data?.message ||
-                    err.message ||
-                    '도서 수정 중 오류가 발생했습니다.',
+                err.message ||
+                '도서 수정 중 오류가 발생했습니다.',
             );
         } finally {
             setLoading(false);
@@ -522,7 +502,7 @@ function Revision() {
                                         }}
                                     >
                                         {formData.coverImageType ===
-                                        'existing'
+                                            'existing'
                                             ? '현재 표지'
                                             : '표지 미리보기'}
                                     </Typography>

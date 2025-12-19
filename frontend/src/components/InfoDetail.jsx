@@ -1,13 +1,17 @@
-import React,{ useEffect,useState } from "react";
-import { Box, Typography,Divider} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Typography, Divider, Button } from "@mui/material";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import InfoComment from "./InfoComment";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Added useNavigate
 
+
+import axios from "axios";
+import bookService from "./bookService";
 
 export default function InfoDetail() {
     const { id } = useParams();
+    const navigate = useNavigate(); // Hook for navigation
     const bookId = id;
 
     const [book, setBook] = useState(null);
@@ -19,46 +23,64 @@ export default function InfoDetail() {
 
     const fetchBookDetail = async () => {
         try {
-            const res = await fetch(`http://localhost:8080/api/books/${bookId}`);
-            const data = await res.json();
+            // Use bookService for consistency
+            const response = await bookService.getBook(bookId);
+            const data = response.data; // BookResponse
 
             setBook(data);
-            setRecommend(data.recommend);
+            setRecommend(data.recommend || 0);
         } catch (error) {
             console.error("책 상세 불러오기 실패:", error);
         }
     };
 
     const handleBookVote = async (isUpvote = true) => {
+        // 1. 이미 투표했는지 확인
         if (hasVoted) {
             alert("이미 추천한 게시글입니다.");
             return;
         }
 
         try {
+            // 2. 백엔드에 요청 보내기 (URL에 isUpvote 포함)
             const res = await fetch(
-                `http://localhost:8080/api/books/${bookId}/like`,
+                `/api/books/${bookId}/like?isUpvote=${isUpvote}`,
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${accessToken}`, // 토큰이 있다면 사용
                     },
                     body: JSON.stringify({ userId: Number(userId) }),
                 }
             );
 
-            const result = await res.json();
+            // 3. 응답 처리
+            if (res.status === 200) {
+                // ★ [여기가 변경된 부분입니다]
+                // 백엔드가 보낸 최신 추천 수(Integer)를 받아서 화면에 반영
+                const updatedCount = await res.json();
+                setRecommend(updatedCount);
 
-            if (res.status === 409) {
+                setHasVoted(true); // 투표 완료 처리
+            } else if (res.status === 409) {
                 alert("이미 추천한 게시글입니다.");
-                return;
             }
-
-            setRecommend((prev) => prev + (isUpvote ? 1 : -1));
-            setHasVoted(true); // 한번만 가능
         } catch (error) {
             console.error("추천 요청 실패:", error);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!window.confirm("정말 이 책을 삭제하시겠습니까?")) return;
+
+        try {
+            await bookService.deleteBook(bookId, userId);
+            alert("삭제되었습니다.");
+            navigate("/MainPage"); // Go to Main Page after delete
+        } catch (error) {
+            console.error("삭제 실패:", error);
+            alert("삭제에 실패했습니다. (권한이 없거나 서버 오류)");
         }
     };
 
@@ -70,6 +92,7 @@ export default function InfoDetail() {
     if (!book) return <Typography>불러오는 중...</Typography>;
 
     function formatDate(dateString) {
+        if (!dateString) return '';
         const date = new Date(dateString);
 
         const yyyy = date.getFullYear();
@@ -82,12 +105,18 @@ export default function InfoDetail() {
         return `${yyyy}-${mm}-${dd} ${hh}:${min}`;
     }
 
+    // Check if current user is the author
+    // book.userId is now populated in Backend BookResponse
+    // userId from localStorage is string, book.userId might be number. 
+    const isAuthor = userId && book.userId && (String(userId) === String(book.userId));
+
+
     return (
         <Box sx={{ p: 3, maxWidth: 1000, margin: "0 auto" }}>
-            <Box sx={{display:"flex"}}>
+            <Box sx={{ display: "flex" }}>
 
                 {/* 왼쪽 이미지 */}
-                <Box sx={{flexShrink:0 ,width: "250px", mr:3}}>
+                <Box sx={{ flexShrink: 0, width: "250px", mr: 3 }}>
                     <img
                         src={book.coverImageUrl}
                         style={{ width: "100%", borderRadius: 4 }}
@@ -96,13 +125,13 @@ export default function InfoDetail() {
                 </Box>
 
                 {/* 오른쪽 정보 영역 */}
-                <Box sx={{ flex: 1, maxWidth:"700px" }}>
+                <Box sx={{ flex: 1, maxWidth: "700px" }}>
                     <Typography variant="h4" fontWeight="bold" gutterBottom>
                         {book.title}
                     </Typography>
 
                     <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                        작성자 {book.userId}
+                        작성자 {book.userName || book.userId || '알 수 없음'}
                     </Typography>
 
                     <Typography variant="subtitle1" color="text.secondary" gutterBottom>
@@ -113,17 +142,19 @@ export default function InfoDetail() {
                         수정일 {formatDate(book.updatedAt)}
                     </Typography>
 
-                    {/*<Typography variant="body1" sx={{bgcolor: "grey.200",p: 1,*/}
-                    {/*    borderRadius: 1, lineHeight: 1.7,width: "100%", ml:-1,       // ⭐ 텍스트가 박스를 벗어나지 못하게 함*/}
-                    {/*        wordBreak: "break-all",whiteSpace: "pre-line"}}>*/}
-                    {/*    {`소설의 간단한 소개 또는 줄거리 텍스트를 입력하는 영역입니다.1111111111111111111111111111111111111111*/}
-                    {/*    111111111111111111111111111111111111111111111111111*/}
-                    {/*    11111111111111111111111111111111111111*/}
-                    {/*    11111111111111111111111111111*/}
-                    {/*    11111111111111111111111111111*/}
-                    {/*    1111111111111111111`}*/}
+                    {/* Delete Button for Author */}
+                    {isAuthor && (
+                        <Box sx={{ mt: 2 }}>
+                            <Button
+                                variant="contained"
+                                color="error"
+                                onClick={handleDelete}
+                            >
+                                삭제하기
+                            </Button>
+                        </Box>
+                    )}
 
-                    {/*</Typography>*/}
                 </Box>
 
 
@@ -131,17 +162,19 @@ export default function InfoDetail() {
             </Box>
             <Divider sx={{ my: 3, borderColor: "grey.400" }} />
             {/* 하단: 본문 내용 */}
-            <Box sx={{ mt: 4,
-                wordBreak: "break-all",whiteSpace: "pre-line"}}>  {/* 위쪽 여백 */}
+            <Box sx={{
+                mt: 4,
+                wordBreak: "break-all", whiteSpace: "pre-line"
+            }}>  {/* 위쪽 여백 */}
 
-                <Typography sx={{fontSize: "1.1rem",lineHeight: 1.7 }}>
+                <Typography sx={{ fontSize: "1.1rem", lineHeight: 1.7 }}>
                     {book.content}
 
                 </Typography>
             </Box>
 
             {/*추천 영역*/}
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mt: 2}}>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mt: 2 }}>
                 <Box
                     sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
                     onClick={() => handleBookVote(true)}
@@ -151,15 +184,16 @@ export default function InfoDetail() {
                 </Box>
 
                 <Box
-                    sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+                    sx={{ display: "flex", alignItems: "center", cursor: "pointer", ml: 2 }}
                     onClick={() => handleBookVote(false)}
                 >
                     <ThumbDownIcon color="error" />
+                    {/* Assuming separate count or just logic not shown, usually there is only one 'recommend' count */}
                 </Box>
             </Box>
             <Divider sx={{ my: 3, borderColor: "grey.400" }} />
             {/* 댓글 영역 */}
-            <InfoComment bookId={bookId} comments={book.comments}/>
+            <InfoComment bookId={bookId} comments={book.comments} />
 
         </Box>
     );

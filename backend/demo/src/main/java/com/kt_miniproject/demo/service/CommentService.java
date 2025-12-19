@@ -10,4 +10,5 @@ public interface CommentService {
     CommentResponse createComment(Long bookId, CommentCreateRequest request);
     void deleteComment(Long commentId, Long userId);
     List<CommentResponse> getCommentsByBook(Long bookId);
+    int likeComment(Long commentId, boolean isUpvote);
 }

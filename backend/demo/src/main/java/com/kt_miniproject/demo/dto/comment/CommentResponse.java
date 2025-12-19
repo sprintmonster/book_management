@@ -26,6 +26,12 @@ public class CommentResponse {
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
         this.recommend = comment.getRecommend();
-
+        if (comment.getUser() != null) {
+            this.userId = comment.getUser().getId();
+            this.userName = comment.getUser().getName();
+        }
+        if (comment.getBook() != null) {
+            this.bookId = comment.getBook().getId();
+        }
     }
 }

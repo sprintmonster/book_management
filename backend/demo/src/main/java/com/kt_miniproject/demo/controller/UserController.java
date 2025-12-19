@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")   // ★ /api/users 로 통일
+@RequestMapping("/api/users") // ★ /api/users 로 통일
 @RequiredArgsConstructor
 public class UserController {
 
@@ -29,10 +29,12 @@ public class UserController {
 
     // 2. 유저 조회
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserResponse> getUser(@PathVariable("id") Long id) {
+        // 서비스에 있는 getUserInfo 메서드는 DTO(UserResponse)를 리턴하도록 만들어뒀었죠?
+        // 그걸 호출해야 순환 참조가 안 일어납니다.
+        UserResponse userResponse = userService.getUserInfo(id);
+
+        return ResponseEntity.ok(userResponse);
     }
 
     // 1. 로그인 (POST)
@@ -62,8 +64,15 @@ public class UserController {
 
     // 4. 비밀번호 찾기 (GET) - (?email=a@a.com&name=홍길동)
     @GetMapping("/modify/find_password")
-    public ResponseEntity<String> findPassword(@RequestParam String email, @RequestParam String name) {
-        String password = userService.findPassword(email, name);
-        return ResponseEntity.ok("비밀번호는: " + password);
+    public ResponseEntity<Object> findPassword(@RequestParam String email, @RequestParam String name) {
+    String password = userService.findPassword(email, name);
+    return ResponseEntity.ok("비밀번호는: "+password);
+    }
+
+    // 5. 회원정보 수정 (PUT)
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody com.kt_miniproject.demo.dto.user.UserCreateRequest request) {
+        UserResponse updatedUser = userService.updateUser(id, request);
+        return ResponseEntity.ok(updatedUser);
     }
 }
