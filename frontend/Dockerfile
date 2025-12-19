@@ -1,16 +1,16 @@
-FROM node:18-alpine AS build
+# 1단계: React 빌드
+FROM node:18 AS build
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 COPY . .
 RUN npm run build
 
-FROM nginx:stable-alpine
+# 2단계: Nginx로 정적 파일 서빙
+FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
-CMD ["nginx","-g","daemon off;"]
-
+CMD ["nginx", "-g", "daemon off;"]
