@@ -81,10 +81,12 @@ function RegisterPage() {
                 </AppBar>
 
                 {/* 회원가입 박스 */}
-                <Box display="flex"
-                     justifyContent="center"
-                     alignItems="center"
-                     sx={{ height: 'calc(100vh - 500px)' }}>
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="flex-start"   // 중앙정렬 대신 상단정렬
+                    sx={{ pt: 10, height: 'calc(100vh - 100px)' }} // pt: padding-top
+                >
                     <Paper
                         elevation={3}
                         sx={{
