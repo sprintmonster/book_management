@@ -14,3 +14,8 @@ spring:
         format_sql: true
         jdbc:
           time_zone: Asia/Seoul
+
+app:
+  api-url: ${API_URL:http://localhost:8080}  # 필요 시 백엔드 ELB 주소
+  cors:
+    allowed-origins: http://k8s-default-a084110f-669abede59-50dcce7293374d93.elb.ap-northeast-2.amazonaws.com
