@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+      nodejs: 18
+    commands:
+      - echo "Install phase"
+
+  pre_build:
+    commands:
+      - echo "Grant execute permission to gradlew"
+      - chmod +x backend/demo/gradlew
+
+  build:
+    commands:
+      - echo "Build backend"
+      - cd backend/demo
+      - ./gradlew clean build
+      - cd ../../
+
+      - echo "Build frontend"
+      - cd frontend/src
+      - npm install
+      - npm run build
+      - cd ../../
+
+artifacts:
+  base-directory: frontend/src/build 
+  files:
+    - '**/*'                           
+    - ../../backend/demo/build/libs/*.jar
